@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product — Little Luxe Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blush:     #f5e6e0;
+      --petal:     #eecfc7;
+      --rose:      #d4847a;
+      --deep-rose: #b5635a;
+      --sage:      #a8b89a;
+      --moss:      #7a9068;
+      --cream:     #fdf8f4;
+      --warm-white:#fffcf9;
+      --text:      #3a2e2b;
+      --text-light:#7a6560;
+      --gold:      #c9a96e;
+      --gold-light:#e8d5b0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--warm-white);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(253,248,244,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gold-light);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 500;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--rose); font-style: italic; }
+    .nav-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-light); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--rose); }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      padding: 1rem 3rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+    }
+    .breadcrumb a { color: var(--text-light); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--rose); }
+    .breadcrumb span { margin: 0 0.4rem; opacity: 0.5; }
+
+    /* MAIN LAYOUT */
+    .product-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 3rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* LEFT — IMAGE GALLERY */
+    .gallery { position: sticky; top: 90px; }
+    .main-img-wrap {
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: var(--blush);
+      position: relative;
+      margin-bottom: 1rem;
+      box-shadow: 0 12px 40px rgba(212,132,122,0.15);
+    }
+    .main-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+    .main-img-wrap .img-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--moss);
+      color: #fff; font-size: 0.62rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+    }
+    /* Thumbnails */
+    .thumbs {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+    }
+    .thumb {
+      width: 72px; height: 72px;
+      border-radius: 12px; overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb:hover { transform: translateY(-2px); }
+    .thumb.active { border-color: var(--rose); }
+
+    /* RIGHT — PRODUCT INFO */
+    .product-info { padding-top: 0.5rem; }
+    .product-category-tag {
+      font-size: 0.68rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--moss);
+      margin-bottom: 0.6rem;
+    }
+    .product-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--text); margin-bottom: 0.8rem;
+    }
+    .product-title em { font-style: italic; color: var(--rose); }
+
+    /* Rating row */
+    .rating-row {
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.05em; }
+    .rating-count {
+      font-size: 0.75rem; color: var(--text-light);
+      border-bottom: 1px solid var(--text-light);
+      cursor: pointer;
+    }
+
+    /* Price */
+    .price-row {
+      display: flex; align-items: baseline; gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--gold-light);
+    }
+    .price-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600;
+      color: var(--rose);
+    }
+    .price-main sup { font-size: 1rem; vertical-align: super; }
+    .price-note {
+      font-size: 0.75rem; color: var(--text-light);
+      background: var(--blush); padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+    }
+
+    /* Description */
+    .product-desc {
+      font-size: 0.88rem; font-weight: 300;
+      color: var(--text-light); line-height: 1.9;
+      margin-bottom: 1.8rem;
+    }
+
+    /* Option sections */
+    .option-section { margin-bottom: 1.5rem; }
+    .option-label {
+      font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text);
+      font-weight: 500; margin-bottom: 0.7rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .option-label .selected-val {
+      font-weight: 300; color: var(--rose);
+      text-transform: none; letter-spacing: 0;
+      font-size: 0.8rem;
+    }
+
+    /* Color swatches */
+    .color-swatches {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+    }
+    .swatch {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2.5px solid transparent;
+      cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .swatch:hover { transform: scale(1.1); }
+    .swatch.active { border-color: var(--rose); }
+    .swatch .swatch-tooltip {
+      position: absolute; bottom: 110%; left: 50%;
+      transform: translateX(-50%);
+      background: var(--text); color: #fff;
+      font-size: 0.62rem; padding: 0.25rem 0.5rem;
+      border-radius: 6px; white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .swatch:hover .swatch-tooltip { opacity: 1; }
+
+    /* Size / Age chips */
+    .chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .chip {
+      border: 1.5px solid var(--petal);
+      background: transparent;
+      color: var(--text-light);
+      padding: 0.45rem 1.1rem;
+      border-radius: 30px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip:hover { border-color: var(--rose); color: var(--rose); }
+    .chip.active {
+      background: var(--rose); border-color: var(--rose);
+      color: #fff;
+    }
+    .chip.unavailable {
+      opacity: 0.35; cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    /* Quantity */
+    .qty-row {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .qty-control {
+      display: flex; align-items: center;
+      border: 1.5px solid var(--petal);
+      border-radius: 30px; overflow: hidden;
+    }
+    .qty-btn {
+      background: none; border: none;
+      width: 40px; height: 40px;
+      font-size: 1.2rem; cursor: pointer;
+      color: var(--text-light);
+      transition: background 0.2s, color 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qty-btn:hover { background: var(--blush); color: var(--rose); }
+    .qty-display {
+      min-width: 40px; text-align: center;
+      font-size: 0.95rem; font-weight: 500;
+      color: var(--text);
+    }
+    .qty-note {
+      font-size: 0.72rem; color: var(--text-light);
+    }
+
+    /* CTA Buttons */
+    .cta-row {
+      display: flex; gap: 0.8rem; margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-wa {
+      flex: 1; min-width: 180px;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: #25d366; color: #fff;
+      border: none; border-radius: 40px;
+      padding: 1rem 1.5rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.25);
+      text-decoration: none;
+    }
+    .btn-wa:hover {
+      background: #1da851; transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(37,211,102,0.35);
+    }
+    .btn-wishlist {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 1.5px solid var(--petal);
+      background: var(--blush);
+      font-size: 1.2rem; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .btn-wishlist:hover { background: var(--petal); transform: scale(1.1); }
+
+    /* Perks strip */
+    .perks {
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      padding: 1.2rem;
+      background: var(--cream);
+      border: 1px solid var(--gold-light);
+      border-radius: 16px;
+      margin-bottom: 1.8rem;
+    }
+    .perk {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; color: var(--text-light);
+    }
+    .perk-icon { font-size: 1rem; }
+
+    /* Details accordion */
+    .details-section { border-top: 1px solid var(--gold-light); }
+    .accordion {
+      border-bottom: 1px solid var(--gold-light);
+    }
+    .accordion-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 0; cursor: pointer;
+      font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text);
+      font-weight: 500;
+      user-select: none;
+    }
+    .accordion-header:hover { color: var(--rose); }
+    .accordion-icon { font-size: 1.1rem; transition: transform 0.3s; }
+    .accordion.open .accordion-icon { transform: rotate(45deg); }
+    .accordion-body {
+      font-size: 0.83rem; color: var(--text-light);
+      line-height: 1.8; font-weight: 300;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .accordion.open .accordion-body {
+      max-height: 300px;
+      padding-bottom: 1rem;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text); color: #fff;
+      padding: 0.8rem 1.8rem; border-radius: 30px;
+      font-size: 0.82rem; letter-spacing: 0.05em;
+      z-index: 9999; opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      white-space: nowrap;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.2rem; }
+      .breadcrumb { padding: 0.8rem 1.2rem; }
+      .product-page { grid-template-columns: 1fr; gap: 2rem; padding: 1rem 1.2rem 4rem; }
+      .gallery { position: static; }
+      .thumb { width: 60px; height: 60px; }
+    }
+
+    /* REVIEW MODAL */
+    .review-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(58,46,43,0.5);
+      backdrop-filter: blur(6px);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .review-backdrop.open { opacity: 1; pointer-events: all; }
+    .review-modal {
+      background: var(--warm-white);
+      border-radius: 24px;
+      padding: 2rem;
+      max-width: 500px; width: 100%;
+      box-shadow: 0 20px 60px rgba(58,46,43,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    .review-backdrop.open .review-modal { transform: translateY(0); }
+    .review-modal h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--text); margin-bottom: 0.3rem;
+    }
+    .review-modal p.sub {
+      font-size: 0.78rem; color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+    .star-picker { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+    .star-picker span {
+      font-size: 2rem; cursor: pointer;
+      color: #ddd; transition: color 0.15s; line-height: 1;
+    }
+    .star-picker span.lit { color: var(--gold); }
+    .review-modal input, .review-modal textarea {
+      width: 100%; border: 1.5px solid var(--petal);
+      border-radius: 10px; padding: 0.75rem 1rem;
+      font-family: 'Jost', sans-serif; font-size: 0.88rem;
+      color: var(--text); outline: none; margin-bottom: 0.8rem;
+      transition: border-color 0.2s;
+    }
+    .review-modal input:focus, .review-modal textarea:focus { border-color: var(--rose); }
+    .review-modal textarea { resize: vertical; min-height: 90px; }
+    .review-submit {
+      width: 100%; background: var(--rose); color: #fff;
+      border: none; padding: 0.9rem; border-radius: 30px;
+      font-family: 'Jost', sans-serif; font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .review-submit:hover { background: var(--deep-rose); }
+    .review-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: none; border: none; font-size: 1.3rem;
+      cursor: pointer; color: var(--text-light);
+      transition: color 0.2s;
+    }
+    .review-close:hover { color: var(--rose); }
+    .reviews-list { margin-top: 1.5rem; }
+    .review-item {
+      background: var(--cream); border-radius: 12px;
+      padding: 0.9rem 1rem; margin-bottom: 0.7rem;
+    }
+    .review-item .r-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.3rem;
+    }
+    .review-item .r-name { font-size: 0.82rem; font-weight: 500; color: var(--text); }
+    .review-item .r-stars { color: var(--gold); font-size: 0.85rem; }
+    .review-item .r-text { font-size: 0.8rem; color: var(--text-light); line-height: 1.6; }
+    .avg-stars { display: flex; align-items: center; gap: 0.5rem; }
+    .avg-stars .stars-display { color: var(--gold); letter-spacing: 2px; }
+    .avg-stars .avg-num { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .avg-stars .review-link {
+      font-size: 0.75rem; color: var(--text-light);
+      border-bottom: 1px solid var(--text-light);
+      cursor: pointer; margin-left: 0.3rem;
+      transition: color 0.2s;
+    }
+    .avg-stars .review-link:hover { color: var(--rose); border-color: var(--rose); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="Images/LittleLuxeCo Logo.jpeg" alt="Little Luxe Co." style="height:60px;width:auto;object-fit:contain;"></a>
+    <a href="index.html" class="nav-back">← Back to Shop</a>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="index.html#products" id="bcCategory">Shop</a>
+    <span>›</span>
+    <span id="bcProduct">Product</span>
+  </div>
+
+  <!-- PRODUCT PAGE -->
+  <div class="product-page">
+
+    <!-- LEFT: Gallery -->
+    <div class="gallery">
+      <div class="main-img-wrap">
+        <img id="mainImg" src="" alt="Product Image">
+        <div class="img-badge" id="imgBadge">New</div>
+      </div>
+      <div class="thumbs" id="thumbsContainer"></div>
+    </div>
+
+    <!-- RIGHT: Info -->
+    <div class="product-info">
+      <div class="product-category-tag" id="pdCategory"></div>
+      <h1 class="product-title" id="pdName"></h1>
+
+      <div class="rating-row">
+        <div class="avg-stars">
+          <span class="stars-display" id="avgStarsDisplay">★★★★★</span>
+          <span class="avg-num" id="avgNumDisplay">5.0</span>
+          <span class="review-link" onclick="openReviewModal()" id="reviewCountLink">Be the first to review</span>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <div class="price-main" id="pdPrice"></div>
+        <div class="price-note" id="pdPriceNote"></div>
+      </div>
+
+      <div class="product-desc" id="pdDesc"></div>
+
+      <!-- COLOR
+      <div class="option-section" id="colorSection" style="display:none;">
+        <div class="option-label">
+          Colour <span class="selected-val" id="colorVal"></span>
+        </div>
+        <div class="color-swatches" id="colorSwatches"></div>
+      </div>-->
+      
+      <!-- Genre (Bundle only) -->
+<div class="option-section" id="genreSection" style="display:none;">
+  <div class="option-label">
+    Choose Genre <span class="selected-val" id="genreVal"></span>
+  </div>
+  <div id="genreChips" style="display:flex;flex-wrap:wrap;gap:0.6rem;"></div>
+</div>
+
+      <!-- SIZE (Women Tees only) -->
+      <div class="option-section" id="sizeSection" style="display:none;">
+        <div class="option-label">
+          Size <span class="selected-val" id="sizeVal"></span>
+        </div>
+        <div class="chips" id="sizeChips"></div>
+      </div>
+
+      <!-- AGE (Toddler only) -->
+      <div class="option-section" id="ageSection" style="display:none;">
+        <div class="option-label">
+          Age <span class="selected-val" id="ageVal"></span>
+        </div>
+        <div class="chips" id="ageChips"></div>
+      </div>
+
+      <!-- PERKS -->
+      <div class="perks">
+        <div class="perk"><span class="perk-icon">🚚</span> Free shipping above €45</div>
+        <div class="perk"><span class="perk-icon">🎉</span> 10% off first order</div>
+        <div class="perk"><span class="perk-icon">🍽️</span> 50% off 6th order</div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-row">
+        <button class="btn-wa" onclick="goToOrderForm()">
+          🛒 You love it! Order in the form below.
+        </button>
+        <button class="btn-wishlist" id="wishBtn" onclick="toggleWish()">🤍</button>
+      </div>
+
+      <!-- ACCORDION DETAILS -->
+      <div class="details-section">
+        <div class="accordion" onclick="toggleAccordion(this)">
+          <div class="accordion-header">
+            Product Details <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-body" id="pdDetails"></div>
+        </div>
+        <div class="accordion" onclick="toggleAccordion(this)">
+          <div class="accordion-header">
+            Care Instructions <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-body" id="pdCare"></div>
+        </div>
+        <div class="accordion" onclick="toggleAccordion(this)">
+          <div class="accordion-header">
+            Shipping & Returns <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            Free shipping on all orders above €45. Returns: Since all our products are personalized according to customer needs, returns are not applicable. For more information, refer to the main page.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- REVIEW MODAL -->
+  <div class="review-backdrop" id="reviewBackdrop" onclick="if(event.target===this)closeReviewModal()">
+    <div class="review-modal" style="position:relative;max-height:85vh;overflow-y:auto;">
+      <button class="review-close" onclick="closeReviewModal()">✕</button>
+      <h3 id="reviewModalTitle">Write a Review</h3>
+      <p class="sub" id="reviewModalProduct"></p>
+
+      <!-- Write review form -->
+      <div id="writeReviewForm">
+        <div class="star-picker" id="starPicker">
+          <span onclick="setReviewStar(1)">★</span>
+          <span onclick="setReviewStar(2)">★</span>
+          <span onclick="setReviewStar(3)">★</span>
+          <span onclick="setReviewStar(4)">★</span>
+          <span onclick="setReviewStar(5)">★</span>
+        </div>
+        <p style="font-size:0.72rem;color:var(--text-light);margin-bottom:0.8rem;" id="starHint">Tap to rate</p>
+        <input type="text" id="reviewName" placeholder="Your name">
+        <textarea id="reviewText" placeholder="Share your experience with this product..."></textarea>
+        <button class="review-submit" onclick="submitReview()">Submit Review 🌸</button>
+      </div>
+
+      <!-- Existing reviews -->
+      <div class="reviews-list" id="reviewsList"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ══════════════════════════════════════════
+    //  PRODUCT DATABASE
+    //  Add / edit your products here!
+    // ══════════════════════════════════════════
+    const products = {
+      // ── Keychains ──
+      'Keychains': {
+        name: 'Mini Resin Keychain',
+        category: 'Keychains',
+        price: '€5',
+        //priceNote: '€5',
+        badge: 'New',
+        desc: 'Mini Resin Keychain. The perfect gift for your bestie.',
+        images: ['Images/Keychain/Mini Resin Keychain Freesia.jpeg', 'Images/Keychain/Mini Resin Keychain Blue.jpeg', 'Images/Keychain/Mini Resin Keychain Green.jpeg', 
+        'Images/Keychain/Mini Resin Keychain Light Pink.jpeg', 'Images/Keychain/Mini Resin Keychain Purple.jpeg', 'Images/Keychain/Mini Resin Keychain Yellow.jpeg'],
+        type: 'Keychain',
+        colors: [
+          { name:'White', hex:'#ffffff' },
+          { name:'Blush Pink', hex:'#f5b8b0' },
+          { name:'Sage Green', hex:'#a8b89a' },
+        ],
+        //details: 'Personalized Keychains. Customisable with your own text or pattern upon request.',
+        //care: 'Handle with care.',
+      },
+      // ── BOOKMARKS ──
+      'Bookmark-1': {
+        name: 'Acrylic Bookmark',
+        category: 'Acrylic Bookmarks',
+        price: '€5',
+        badge: 'New',
+        desc: 'The perfect gift for your book bestie.',
+        images: ['Images/Bookmarks/Freesia Pink.png', 'Images/Bookmarks/Light Pink.png', 'Images/Bookmarks/Off-white.png', 'Images/Bookmarks/Purple.png'],
+        type: 'Bookmark',
+        colors: [
+          { name:'White', hex:'#ffffff' },
+          { name:'Blush Pink', hex:'#f5b8b0' },
+          { name:'Sage Green', hex:'#a8b89a' },
+        ],
+        //details: 'Personalized Bookmarks. Customisable with your own text or pattern upon request.',
+        //care: 'Handle with care.',
+      },
+      // ── MUGS ──
+      'mug-1': {
+        name: 'Glass Mugs',
+        category: 'Glass Mugs',
+        price: 8,
+        //priceNote: '2 for €14  (Applicable for same pattern only)',
+        //badge: 'New',
+        desc: 'Glassware Mug. 350ml. Hand wash recommended. Do not microwave or put in dishwasher.',
+        images: ['Images/Glass Mugs/Kitten & Book 1_1.png', 'Images/Glass Mugs/Kitten & Book 1_2.png', 'Images/Glass Mugs/Kitten & Book 1_3.png',
+        'Images/Glass Mugs/Kitten & Book 1_4.png', 'Images/Glass Mugs/Kitten & Book 1_5.png', 'Images/Glass Mugs/Macarons 1_1.png', 'Images/Glass Mugs/Macarons 1_2.png',
+        'Images/Glass Mugs/Macarons 1_3.png', 'Images/Glass Mugs/Macarons 1_4.png'],
+        type: 'mug',
+        colors: [
+          { name:'White', hex:'#ffffff' },
+          { name:'Blush Pink', hex:'#f5b8b0' },
+          { name:'Sage Green', hex:'#a8b89a' },
+        ],
+        details: 'Glassware Mug. 350ml. Hand wash recommended. Do not microwave or put in dishwasher.',
+        care: 'Avoid abrasive cleaners. Handle with care.',
+      },
+      'mug-2': {
+        name: 'Ceramic Mugs',
+        category: 'Ceramic Mugs',
+        price: 8,
+        //priceNote: '2 for €12',
+        //badge: 'Bestseller',
+        desc: 'Ceramic Mug. 330ml. Hand wash recommended. Do not microwave or put in dishwasher.',
+        images: ['Images/Ceramic Mugs/Kitten & Book 1.png', 'Images/Ceramic Mugs/Kitten & Book 2.png', 
+        'Images/Ceramic Mugs/Kitten & Book 3.png', 'Images/Ceramic Mugs/Kitten & Book 4.png', 'Images/Ceramic Mugs/Macarons 1.png', 'Images/Ceramic Mugs/Macarons 2.png', 
+        'Images/Ceramic Mugs/Macarons 3.png', 'Images/Ceramic Mugs/Macarons 4.png'],
+        type: 'mug',
+        colors: [
+          { name:'White', hex:'#ffffff' },
+          { name:'Lavender', hex:'#c9b8e8' },
+        ],
+        details: 'Ceramic Mug. 330ml. Hand wash recommended. Do not microwave or put in dishwasher.',
+        care: 'Avoid abrasive cleaners. Handle with care',
+      },
+      'mug-3': {
+        name: 'Thermal Travel Tumbler',
+        category: 'Thermal Travel Tumbler',
+        price: 15,
+        //priceNote: '2 for €27  (Applicable for same pattern only)',
+        //badge: 'Bestseller',
+        desc: 'Custom Order Request - Currently available to Add Initials - Add Initials of your preference in the message box while Ordering. Dishwasher safe.',
+        images: ['Images/Thermal Mug/Thermal_Mug.avif','Images/Thermal Mug/Thermal_Mug1.png'],
+        type: 'mug',
+        colors: [{ name:'White', hex:'#ffffff' },{ name:'Blush', hex:'#f5b8b0' }],
+        details: 'Thermal Travel Tumbler - Insulated - 550ml. Dishwasher safe.',
+        care: 'Dishwasher safe (top rack).',
+      },
+      'mug-4': {
+        name: 'Cheerful Mouse with Lemons Mug',
+        category: 'Mugs & Tumblers',
+        price: 7, priceNote: '',  badge: 'Bestseller',
+        desc: 'Ceramic mug with our cheerful Mouse with Lemons illustration. Dishwasher safe.',
+        images: ['Images/Mug3.jpeg','Images/Pattern4.jpeg'],
+        type: 'mug',
+        colors: [{ name:'White', hex:'#ffffff' },{ name:'Lemon Yellow', hex:'#f5e27a' }],
+        details: 'Ceramic. 330ml. Microwave & dishwasher safe.',
+        care: 'Dishwasher safe (top rack).',
+      },
+      'mug-5': {
+        name: 'Cheerful Mouse Riding the Scooter Mug',
+        category: 'Mugs & Tumblers',
+        price: 7, priceNote: '', badge: 'Bestseller',
+        desc: 'Ceramic mug with our Cheerful Mouse Riding the Scooter illustration. Dishwasher safe.',
+        images: ['Images/Mug4.jpeg','Images/Pattern5.jpeg'],
+        type: 'mug',
+        colors: [{ name:'White', hex:'#ffffff' },{ name:'Mint', hex:'#b2e0d4' }],
+        details: 'Ceramic. 330ml. Microwave & dishwasher safe.',
+        care: 'Dishwasher safe (top rack).',
+      },
+      'mug-7': {
+        name: 'Personalized Office Thermal Mug',
+        category: 'Mugs & Tumblers',
+        price: 15, 
+        //priceNote: '2 for €27  (Applicable for same pattern only)', 
+        badge: 'Bestseller',
+        desc: 'Add your personalization — text or pattern. If not specified, sent without custom theme. Double-walled stainless steel. Keeps drinks hot 8hrs.',
+        images: ['Images/Mug6.jpeg', 'Images/ThermalMug_Pattern.jpeg', 'Images/ThermalMug_Pattern1.jpeg', 'Images/ThermalMug_Pattern2.jpeg', 
+        'Images/ThermalMug_Pattern3.jpeg', 'Images/ThermalMug_Pattern4.jpeg', 'Images/ThermalMug_Pattern5.jpeg',
+        'Images/ThermalMug_Pattern6.jpeg', 'Images/ThermalMug_Pattern7.jpeg', 'Images/ThermalMug_Pattern8.jpeg',
+        'Images/ThermalMug_Pattern9.jpeg', 'Images/ThermalMug_Pattern10.jpeg', 'Images/ThermalMug_Pattern11.jpeg',
+        'Images/ThermalMug_Pattern12.jpeg', 'Images/ThermalMug_Pattern13.jpeg', 'Images/ThermalMug_Pattern14.jpeg'],
+        type: 'mug',
+        colors: [{ name:'Silver', hex:'#c0c0c0' },{ name:'Rose Gold', hex:'#e8a598' },{ name:'Black', hex:'#2a2a2a' }],
+        details: 'Stainless steel double-wall. 450ml. BPA free. Leak-proof lid included.',
+        care: 'Hand wash recommended. Do not microwave.',
+      },
+      // ── GLASSWARE ──
+      'glass-1': {
+        name: 'Spring Themed Glass Tumbler with Bamboo Lid & Straw',
+        category: 'Glassware',
+        price: 10, badge: 'Bestseller',
+        desc: 'Glass Tumbler with Bamboo Lid and Reusable Straw. Floral spring print. 500ml. Perfect for iced drinks on warm spring days.',
+        images: ['Images/Tumbler with Straw/Books 1.png', 'Images/Tumbler with Straw/Books 2.png', 'Images/Tumbler with Straw/Books 3.png', 
+        'Images/Tumbler with Straw/Books 4.png', 'Images/Tumbler with Straw/Books 5.png', 'Images/Tumbler with Straw/Books 6.png',
+        'Images/Tumbler with Straw/Books 7.png', 'Images/Tumbler with Straw/Books 8.png', 'Images/Tumbler with Straw/Books 9.png', 
+        'Images/Tumbler with Straw/Books 10.png', 'Images/Tumbler with Straw/Books 11.png', 'Images/Tumbler with Straw/Books 12.png', 
+        'Images/Tumbler with Straw/Books 13.png', 'Images/Tumbler with Straw/Books 14.png', 'Images/Tumbler with Straw/Books 15.png', 
+        'Images/Tumbler with Straw/Books 16.png', 'Images/Tumbler with Straw/Books 17.png', 'Images/Tumbler with Straw/Books 18.png',
+        'Images/Tumbler with Straw/Books 19.png', 'Images/Tumbler with Straw/Books 20.png', 'Images/Tumbler with Straw/Books 21.png', 
+        'Images/Tumbler with Straw/Books 22.png', 'Images/Tumbler with Straw/Spring design 1.png', 'Images/Tumbler with Straw/Spring design 2.png'],
+        type: 'glass',
+        colors: [{ name:'Clear', hex:'#e8f4f8' },{ name:'Blush', hex:'#f5b8b0' },{ name:'Sage', hex:'#a8b89a' }],
+        details: 'Borosilicate glass. 500ml. Bamboo lid. Reusable straw included. Hand wash recommended.',
+        care: 'Hand wash only. Do not microwave or put in dishwasher.',
+      },
+      // ── Blind Date with a Book ──
+      //'plate-1': {
+       // name: 'Wild Butterfly Themed Ceramic Plate',
+       // category: 'Plates & Dining',
+       // price: '€8', //priceNote: 'Per piece €5', 
+       // badge: '',
+       // desc: 'Ceramic plates with wild Butterfly print. Microwave & dishwasher safe. Limited spring edition.',
+        //images: ['Images/Plates/Plates.jpeg', 'Images/Plates/1.png',  'Images/Plates/2.png', 'Images/Plates/3.png', 'Images/Plates/4.png', 
+        //'Images/Plates/5.png', 'Images/Plates/6.png', 'Images/Plates/7.png', 'Images/Plates/8.png'],
+       // type: 'plate',
+       // colors: [{ name:'White', hex:'#ffffff' },{ name:'Cream', hex:'#fdf8f4' }],
+       // details: 'Ceramic. Microwave & dishwasher safe. Diameter: 26cm.',
+       // care: 'Dishwasher safe. Microwave safe. Avoid sudden temperature changes.',
+      //},
+      'Blind Date with a Book': {
+        name: 'Blind Date with a Book',
+        category: 'Blind Date with a Book',
+        price: 25, priceNote: '', badge: '',
+        desc: 'Just the Book, Just the surprise, Just the experience. A beautifully wrapped Mystery Book chosen to surprise and delight every reader.',
+        images: ['Images/Blind Date Book/Image0.jpeg', 'Images/Blind Date Book/Image1.jpeg'],
+        type: 'Blind Date with a Book',
+        colors: [{ name:'White', hex:'#ffffff' }],
+        details: 'Language options: English, French, Dutch, German. Can be specified in your order. Mug/tumbler chosen at random.',
+        //care: 'Dishwasher safe. Microwave safe.',
+      },
+      // ── CLOTHING ──
+      'clothing-toddler': {
+        name: 'Customizable Toddler T-Shirt',
+        category: 'Printed Tees & Patterns',
+        price: 10, priceNote: '', badge: 'New',
+        desc: 'Toddler T-shirt — Customisable with initials. Super Soft. Machine washable. Perfect little gift!',
+        images: ['Images/TT-Shirt1.jpeg','Images/Toddler_Clothing_Pattern.jpeg'],
+        type: 'toddler',
+        colors: [{ name:'White', hex:'#ffffff' },{ name:'Blush', hex:'#f5b8b0' },{ name:'Lemon', hex:'#f5e27a' }],
+        ages: ['0–1 yr','1–2 yrs','2–3 yrs','3–4 yrs','4–5 yrs','5–6 yrs','6–7 yrs','7–8 yrs','8–9 yrs','9–10 yrs'],
+        details: '100% cotton. Machine washable 30°C. Customisable with initials upon request.',
+        care: 'Machine wash at 30°C. Do not tumble dry. Iron inside out.',
+      },
+      'clothing-women': {
+        name: "Customizable Women's Printed T-Shirt",
+        category: 'Printed Tees & Patterns',
+        price: 10, priceNote: '', badge: 'New',
+        desc: "Women's T-shirt — Customisable with initials or full name + floral patterns. Relaxed fit, pre-washed cotton.",
+        images: ['Images/WT-Shirt.jpeg','Images/Women_Clothing_Pattern.jpeg'],
+        type: 'women',
+        colors: [{ name:'White', hex:'#ffffff' },{ name:'Blush', hex:'#f5b8b0' },{ name:'Sage', hex:'#a8b89a' },{ name:'Lemon', hex:'#f5e27a' }],
+        sizes: ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'],
+        details: '100% cotton. Relaxed oversized fit. Pre-washed for softness. Customisable with name or initials.',
+        care: 'Machine wash at 30°C. Do not tumble dry. Iron inside out.',
+      },
+      // ── Surprise Box ──
+      'Surprise Box-1': {
+        name: 'Your Surprise Box',
+        category: 'Surprise Box',
+        price: 60, priceNote: '', badge: 'New',
+        desc: 'A Surprise Box packed with love! What\'s included:\n 12 surprise goodies inside + a freebie',
+        images: ['Images/Surprise Box/Surprise_box.png'],
+        type: 'Surprise Box',
+        genres: ['Mystery/Thriller', 'Horror', 'Classics', 'Sci-Fiction', 'Romance', 'Fantasy', 'History', 'Historical Fiction', 'Young Adult/Children Fiction'],
+        colors: [],
+        //details: 'Language options: English, French, Dutch, German. Can be specified in your order. Mug/tumbler chosen at random.',
+        //care: 'Each item comes with its own care instructions.',
+      },
+      // ── BUNDLE ──
+      'bundle-1': {
+        name: 'Your Book Bundle',
+        category: 'Blind Book Date Bundle',
+        price: 50, priceNote: '', badge: 'Bestseller',
+        desc: 'A mystery bundle packed with love! What\'s included:\n📖 A blind date with a book (Genre / Language: ENG, FRA, NL, DE — your choice)\n☕ A Coffee Mug or Glass Tumbler with Bamboo Lid & Straw (chosen at random)\n🔖 Bookmark\n🎨 Printed Canvas Bag\n🔑 Keychain / Bag charm',
+        images: ['Images/Mystery Bundle/Book1.jpeg'],
+        type: 'bundle',
+        genres: ['Mystery/Thriller', 'Horror', 'Classics', 'Sci-Fiction', 'Romance', 'Fantasy', 'History', 'Historical Fiction', 'Young Adult/Children Fiction'],
+        colors: [],
+        details: 'Language options: English, French, Dutch, German. Can be specified in your order. Mug/tumbler chosen at random.',
+        care: 'Each item comes with its own care instructions.',
+      },
+    };
+
+    // ══════════════════════════════════════════
+    //  STATE
+    // ══════════════════════════════════════════
+    let currentProduct = null;
+    let qty = 1;
+    let selectedColor = '';
+    let selectedGenre = '';
+    let selectedSize  = '';
+    let selectedAge   = '';
+    let wishlisted    = false;
+
+
+    // ── REVIEW SYSTEM ──
+    var productReviews = {};
+    var currentReviewStar = 0;
+
+    function getReviewKey() {
+      var params = new URLSearchParams(window.location.search);
+      return 'llc_reviews_' + (params.get('id') || 'mug-1');
+    }
+
+    function loadReviews() {
+      try {
+        var saved = localStorage.getItem(getReviewKey());
+        return saved ? JSON.parse(saved) : [];
+      } catch(e) { return []; }
+    }
+
+    function saveReviews(reviews) {
+      try { localStorage.setItem(getReviewKey(), JSON.stringify(reviews)); } catch(e) {}
+    }
+
+    function updateRatingDisplay() {
+      var reviews = loadReviews();
+      var link = document.getElementById('reviewCountLink');
+      var avgDisp = document.getElementById('avgStarsDisplay');
+      var avgNum  = document.getElementById('avgNumDisplay');
+      if (reviews.length === 0) {
+        if (link) link.textContent = 'Be the first to review';
+        if (avgDisp) avgDisp.textContent = '☆☆☆☆☆';
+        if (avgNum) avgNum.textContent = '';
+      } else {
+        var sum = reviews.reduce(function(a, r){ return a + r.stars; }, 0);
+        var avg = (sum / reviews.length).toFixed(1);
+        var full = Math.round(sum / reviews.length);
+        if (avgDisp) avgDisp.textContent = '★'.repeat(full) + '☆'.repeat(5-full);
+        if (avgNum) avgNum.textContent = avg;
+        if (link) link.textContent = reviews.length + (reviews.length === 1 ? ' review' : ' reviews') + ' — Write yours';
+      }
+    }
+
+    function openReviewModal() {
+      var modal = document.getElementById('reviewBackdrop');
+      var title = document.getElementById('reviewModalProduct');
+      if (title && currentProduct) title.textContent = currentProduct.name;
+      // Load and show existing reviews
+      var reviews = loadReviews();
+      var list = document.getElementById('reviewsList');
+      list.innerHTML = '';
+      if (reviews.length > 0) {
+        var heading = document.createElement('h4');
+        heading.style.cssText = 'font-family:Cormorant Garamond,serif;font-size:1.1rem;font-weight:400;color:var(--text);margin:1.2rem 0 0.8rem;border-top:1px solid var(--gold-light);padding-top:1rem;';
+        heading.textContent = 'Customer Reviews (' + reviews.length + ')';
+        list.appendChild(heading);
+        reviews.slice().reverse().forEach(function(r) {
+          var item = document.createElement('div');
+          item.className = 'review-item';
+          item.innerHTML = '<div class="r-header"><span class="r-name">' + r.name + '</span><span class="r-stars">' + '★'.repeat(r.stars) + '☆'.repeat(5-r.stars) + '</span></div><div class="r-text">' + r.text + '</div>';
+          list.appendChild(item);
+        });
+      }
+      // Reset form
+      currentReviewStar = 0;
+      document.querySelectorAll('#starPicker span').forEach(function(s){ s.classList.remove('lit'); });
+      document.getElementById('starHint').textContent = 'Tap to rate';
+      document.getElementById('reviewName').value = '';
+      document.getElementById('reviewText').value = '';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReviewModal() {
+      document.getElementById('reviewBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function setReviewStar(n) {
+      currentReviewStar = n;
+      document.querySelectorAll('#starPicker span').forEach(function(s, i){
+        s.classList.toggle('lit', i < n);
+      });
+      var labels = ['','Poor','Fair','Good','Very Good','Excellent'];
+      document.getElementById('starHint').textContent = labels[n] + ' (' + n + '/5)';
+    }
+
+    function submitReview() {
+      var name = document.getElementById('reviewName').value.trim();
+      var text = document.getElementById('reviewText').value.trim();
+      if (!currentReviewStar) { alert('Please select a star rating 🌸'); return; }
+      if (!name) { alert('Please enter your name 🌸'); document.getElementById('reviewName').focus(); return; }
+      if (!text) { alert('Please write your review 🌸'); document.getElementById('reviewText').focus(); return; }
+      var reviews = loadReviews();
+      reviews.push({ stars: currentReviewStar, name: name, text: text, date: new Date().toLocaleDateString() });
+      saveReviews(reviews);
+      updateRatingDisplay();
+      showToast('✓ Thank you for your review! 🌸');
+      closeReviewModal();
+    }
+
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeReviewModal(); });
+
+    // ══════════════════════════════════════════
+    //  INIT — read product ID from URL
+    // ══════════════════════════════════════════
+
+    function goToOrderForm() {
+      // Store product info for the form
+      try {
+      var info = {
+        product:  currentProduct ? currentProduct.name : '',
+        category: currentProduct ? currentProduct.category : '',
+          price:    currentProduct ? String(currentProduct.price) : ''
+      };
+        sessionStorage.setItem('llc_order', JSON.stringify(info));
+      } catch(e) { console.log('sessionStorage not available'); }
+      // Always redirect regardless
+      window.location.href = 'index.html#contact';
+    }
+    function init() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id') || 'mug-1';
+      currentProduct = products[id] || products['mug-1'];
+      renderProduct(currentProduct);
+    }
+
+    function renderProduct(p) {
+      // Breadcrumb
+      document.getElementById('bcCategory').textContent = p.category;
+      document.getElementById('bcProduct').textContent  = p.name;
+      document.title = p.name + ' — Little Luxe Co.';
+
+      // Badge
+      const badge = document.getElementById('imgBadge');
+      badge.textContent = p.badge;
+      badge.style.display = p.badge ? 'block' : 'none';
+
+      // Main image
+      document.getElementById('mainImg').src = p.images[0];
+
+      // Thumbnails
+      const thumbsEl = document.getElementById('thumbsContainer');
+      thumbsEl.innerHTML = '';
+      p.images.forEach((src, i) => {
+        const div = document.createElement('div');
+        div.className = 'thumb' + (i === 0 ? ' active' : '');
+        div.innerHTML = `<img src="${src}" alt="thumb ${i+1}">`;
+        div.onclick = () => selectThumb(div, src);
+        thumbsEl.appendChild(div);
+      });
+
+      // Info
+      document.getElementById('pdCategory').textContent = p.category;
+      document.getElementById('pdName').textContent     = p.name;
+      document.getElementById('pdPrice').innerHTML      = `<sup>€</sup>${p.price}`;
+      document.getElementById('pdPriceNote').textContent = p.priceNote;
+      document.getElementById('pdPriceNote').style.display = p.priceNote ? 'block' : 'none';
+
+      // Desc (handle newlines)
+      document.getElementById('pdDesc').innerHTML = p.desc.replace(/\n/g, '<br>');
+
+      // Details / Care
+      document.getElementById('pdDetails').textContent = p.details;
+      document.getElementById('pdCare').textContent    = p.care;
+
+      // Colors
+      const colorSec = document.getElementById('colorSection');
+      if (p.colors && p.colors.length > 0) {
+        colorSec.style.display = 'block';
+        const swatches = document.getElementById('colorSwatches');
+        swatches.innerHTML = '';
+        p.colors.forEach((c, i) => {
+          const div = document.createElement('div');
+          div.className = 'swatch' + (i === 0 ? ' active' : '');
+          div.style.background = c.hex;
+          div.style.boxShadow  = c.hex === '#ffffff' ? 'inset 0 0 0 1px #ddd' : 'none';
+          div.innerHTML = `<span class="swatch-tooltip">${c.name}</span>`;
+          div.onclick = () => selectColor(div, c.name);
+          swatches.appendChild(div);
+        });
+        selectedColor = p.colors[0].name;
+        document.getElementById('colorVal').textContent = '— ' + selectedColor;
+      } else {
+        colorSec.style.display = 'none';
+      }
+
+      // Genre selector (bundle only)
+const genreSec = document.getElementById('genreSection');
+if (p.type === 'bundle' && p.genres) {
+  genreSec.style.display = 'block';
+  const genreContainer = document.getElementById('genreChips');
+  genreContainer.innerHTML = '';
+  p.genres.forEach(function(g) {
+    const chip = document.createElement('div');
+    chip.style.cssText = 'cursor:pointer;border-radius:10px;border:1.5px solid var(--petal);padding:0.6rem 1rem;background:var(--cream);font-size:0.78rem;color:var(--text);font-family:Jost,sans-serif;white-space:nowrap;transition:all 0.2s;';
+    chip.textContent = g;
+    chip.onclick = function() {
+      genreContainer.querySelectorAll('div').forEach(function(d) {
+        d.style.border = '1.5px solid var(--petal)';
+        d.style.background = 'var(--cream)';
+        d.style.color = 'var(--text)';
+      });
+      chip.style.border = '2px solid var(--rose)';
+      chip.style.background = 'var(--blush)';
+      selectedGenre = g;
+      document.getElementById('genreVal').textContent = '— ' + g;
+    };
+    genreContainer.appendChild(chip);
+  });
+} else {
+  if (genreSec) genreSec.style.display = 'none';
+}
+
+      // Sizes (women only)
+      const sizeSec = document.getElementById('sizeSection');
+      if (p.type === 'women' && p.sizes) {
+        sizeSec.style.display = 'block';
+        const chipsEl = document.getElementById('sizeChips');
+        chipsEl.innerHTML = '';
+        p.sizes.forEach(s => {
+          const btn = document.createElement('button');
+          btn.className = 'chip';
+          btn.textContent = s;
+          btn.onclick = () => selectChip(btn, 'size', s);
+          chipsEl.appendChild(btn);
+        });
+        selectedSize = '';
+        document.getElementById('sizeVal').textContent = '';
+      } else {
+        sizeSec.style.display = 'none';
+      }
+
+      // Ages (toddler only)
+      const ageSec = document.getElementById('ageSection');
+      if (p.type === 'toddler' && p.ages) {
+        ageSec.style.display = 'block';
+        const chipsEl = document.getElementById('ageChips');
+        chipsEl.innerHTML = '';
+        p.ages.forEach(a => {
+          const btn = document.createElement('button');
+          btn.className = 'chip';
+          btn.textContent = a;
+          btn.onclick = () => selectChip(btn, 'age', a);
+          chipsEl.appendChild(btn);
+        });
+        selectedAge = '';
+        document.getElementById('ageVal').textContent = '';
+      } else {
+        ageSec.style.display = 'none';
+      }
+
+      // (no qty display on this page)
+      updateRatingDisplay();
+    }
+
+    // ══════════════════════════════════════════
+    //  INTERACTIONS
+    // ══════════════════════════════════════════
+    function selectThumb(div, src) {
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      div.classList.add('active');
+      const mainImg = document.getElementById('mainImg');
+      mainImg.style.opacity = '0';
+      setTimeout(() => { mainImg.src = src; mainImg.style.opacity = '1'; }, 200);
+    }
+
+    function selectColor(div, name) {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      div.classList.add('active');
+      selectedColor = name;
+      document.getElementById('colorVal').textContent = '— ' + name;
+    }
+
+    function selectChip(btn, type, val) {
+      const group = type === 'size' ? 'sizeChips' : 'ageChips';
+      document.getElementById(group).querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      if (type === 'size') {
+        selectedSize = val;
+        document.getElementById('sizeVal').textContent = '— ' + val;
+      } else {
+        selectedAge = val;
+        document.getElementById('ageVal').textContent = '— ' + val;
+      }
+    }
+
+    function loadWishlist() {
+      try { return JSON.parse(localStorage.getItem('llc_wishlist') || '[]'); } catch(e) { return []; }
+    }
+    function saveWishlist(list) {
+      try { localStorage.setItem('llc_wishlist', JSON.stringify(list)); } catch(e) {}
+    }
+
+    function toggleWish() {
+      var list = loadWishlist();
+      var pid  = new URLSearchParams(window.location.search).get('id') || 'mug-1';
+      var idx  = list.findIndex(function(i){ return i.pid === pid; });
+      if (idx > -1) {
+        list.splice(idx, 1);
+        wishlisted = false;
+      } else {
+        wishlisted = true;
+        list.push({
+          pid:   pid,
+          name:  currentProduct ? currentProduct.name : pid,
+          cat:   currentProduct ? currentProduct.category : '',
+          price: currentProduct ? ('€' + currentProduct.price) : '',
+          img:   currentProduct && currentProduct.images ? currentProduct.images[0] : ''
+        });
+      }
+      saveWishlist(list);
+      document.getElementById('wishBtn').textContent = wishlisted ? '❤️' : '🤍';
+      showToast(wishlisted ? '❤️ Added to wishlist!' : 'Removed from wishlist');
+    }
+
+    function initWishState() {
+      var list = loadWishlist();
+      var pid  = new URLSearchParams(window.location.search).get('id') || 'mug-1';
+      wishlisted = list.some(function(i){ return i.pid === pid; });
+      document.getElementById('wishBtn').textContent = wishlisted ? '❤️' : '🤍';
+    }
+
+    function toggleAccordion(el) {
+      el.classList.toggle('open');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ══════════════════════════════════════════
+    //  START
+    // ══════════════════════════════════════════
+    init();
+    initWishState();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Little Luxe Co. — Seasonal Treasures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blush:     #f5e6e0;
+      --petal:     #eecfc7;
+      --rose:      #d4847a;
+      --deep-rose: #b5635a;
+      --sage:      #a8b89a;
+      --moss:      #7a9068;
+      --cream:     #fdf8f4;
+      --warm-white:#fffcf9;
+      --text:      #3a2e2b;
+      --text-light:#7a6560;
+      --gold:      #c9a96e;
+      --gold-light:#e8d5b0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--warm-white);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--rose);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1.5px solid var(--rose);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
+      opacity: 0.6;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Floating petals */
+    .petal-bg {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .fp {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0.18;
+      animation: floatPetal linear infinite;
+    }
+    @keyframes floatPetal {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.18; }
+      90%  { opacity: 0.18; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: rgba(253,248,244,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gold-light);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      mix-blend-mode: multiply;
+      filter: contrast(1.05);
+    }
+    .nav-logo span { color: var(--rose); font-style: italic; }
+    .nav-links {
+      display: flex; gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--rose);
+      transform: scaleX(0); transition: transform 0.3s;
+      transform-origin: left;
+    }
+    .nav-links a:hover { color: var(--rose); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-ig {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-light); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-ig:hover { color: var(--rose); }
+    .nav-ig svg { width: 16px; height: 16px; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 3rem;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--blush) 60%, #f0dbd5 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 600px;
+      animation: fadeUp 1s ease both;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--moss);
+      border: 1px solid var(--sage);
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      margin-bottom: 1.8rem;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .hero p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.8;
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 1s 0.45s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 1s 0.6s ease both;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--rose);
+      color: #fff;
+      padding: 0.85rem 2.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(212,132,122,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--deep-rose);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(212,132,122,0.4);
+    }
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid var(--rose);
+      color: var(--rose);
+      padding: 0.85rem 2.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover {
+      background: var(--rose);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Hero decorative elements */
+    .hero-deco {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      width: 50%;
+      z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-circle {
+      position: absolute;
+      border-radius: 50%;
+    }
+    .hc1 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(238,207,199,0.6) 0%, transparent 70%);
+      right: -60px; top: 50%; transform: translateY(-50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .hc2 {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(168,184,154,0.25) 0%, transparent 70%);
+      right: 80px; top: 20%;
+      animation: pulse 5s 1s ease-in-out infinite;
+    }
+    .hero-flowers {
+      position: absolute; right: 5%; top: 50%;
+      transform: translateY(-50%);
+      font-size: 8rem;
+      opacity: 0.15;
+      animation: fadeUp 1.2s 0.5s ease both, float 6s 1s ease-in-out infinite;
+      user-select: none;
+    }
+    .hero-season-badge {
+      position: absolute;
+      bottom: 3rem; right: 3rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold-light);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      animation: fadeUp 1s 0.8s ease both;
+    }
+    .hero-season-badge .season { font-size: 1.6rem; }
+    .hero-season-badge p {
+      font-size: 0.68rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-light);
+      margin: 0; line-height: 1.4;
+    }
+
+    /* Offer Cards */
+    .hero-offers {
+      position: absolute;
+      top: 12%; right: 3rem;
+      transform: none;
+      display: flex; flex-direction: column; gap: 0.8rem;
+      z-index: 3;
+      animation: fadeUp 1s 0.9s ease both;
+    }
+    .offer-card {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--gold-light);
+      border-radius: 14px;
+      padding: 0.85rem 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      box-shadow: 0 4px 16px rgba(212,132,122,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-width: 260px;
+    }
+    .offer-card:hover {
+      transform: translateX(-4px);
+      box-shadow: 0 8px 24px rgba(212,132,122,0.18);
+    }
+    .offer-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .offer-text { line-height: 1.4; }
+    .offer-text strong {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .offer-text span {
+      font-size: 0.7rem;
+      color: var(--text-light);
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: translateY(-50%) scale(1); }
+      50%      { transform: translateY(-50%) scale(1.06); }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(-50%); }
+      50%      { transform: translateY(-55%); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SEASONAL BANNER */
+    .season-strip {
+      background: var(--rose);
+      color: #fff;
+      text-align: center;
+      padding: 0.7rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .season-strip span { margin: 0 1.5rem; opacity: 0.7; }
+
+    /* SECTION STYLES */
+    section { position: relative; z-index: 1; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 0.8rem;
+    }
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .section-header h2 em { font-style: italic; color: var(--rose); }
+    .section-header p {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-weight: 300;
+      max-width: 480px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.8;
+    }
+    .divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      margin: 1.2rem auto 0;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      padding: 5rem 3rem;
+      background: var(--warm-white);
+    }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .cat-card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border: 1px solid var(--gold-light);
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .cat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(212,132,122,0.15);
+      background: var(--blush);
+    }
+    .cat-icon { font-size: 2.4rem; margin-bottom: 0.8rem; }
+    .cat-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    .cat-card p {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    /* PRODUCTS */
+    .products {
+      padding: 5rem 3rem;
+      background: linear-gradient(180deg, var(--warm-white) 0%, var(--blush) 100%);
+    }
+    .product-filters {
+      display: flex; gap: 0.8rem; justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .filter-btn {
+      border: 1.5px solid var(--petal);
+      background: transparent;
+      color: var(--text-light);
+      padding: 0.5rem 1.4rem;
+      border-radius: 30px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--rose);
+      border-color: var(--rose);
+      color: #fff;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--gold-light);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(180,100,90,0.15);
+    }
+    .product-card:hover .product-overlay { opacity: 1; }
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--blush);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .product-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--rose);
+      color: #fff;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+    }
+    .product-badge.new { background: var(--moss); }
+    .product-overlay {
+      position: absolute; inset: 0;
+      background: rgba(58,46,43,0.08);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .overlay-btn {
+      background: #fff;
+      border: none;
+      color: var(--rose);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.6rem;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      transition: background 0.2s, color 0.2s;
+    }
+    .overlay-btn:hover { background: var(--rose); color: #fff; }
+    .product-info {
+      padding: 1.2rem 1.4rem 1.5rem;
+    }
+    .product-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 0.35rem;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+      line-height: 1.3;
+    }
+    .product-desc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 300;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--rose);
+    }
+    .product-price .currency {
+      font-size: 0.85rem;
+      vertical-align: super;
+      margin-right: 1px;
+    }
+    .wishlist-btn {
+      background: var(--blush);
+      border: none;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .wishlist-btn:hover { background: var(--petal); transform: scale(1.1); }
+
+    /* ABOUT */
+    .about {
+      padding: 6rem 3rem;
+      background: var(--cream);
+    }
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-wrap {
+      border-radius: 30px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--blush), var(--petal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7rem;
+      box-shadow: 0 20px 60px rgba(212,132,122,0.2);
+    }
+    .about-deco {
+      position: absolute;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: var(--sage);
+      opacity: 0.18;
+      bottom: -30px; right: -30px;
+      z-index: -1;
+    }
+    .about-deco2 {
+      position: absolute;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.15;
+      top: -20px; left: -20px;
+      z-index: -1;
+    }
+    .about-text { }
+    .about-text .section-header { text-align: left; }
+    .about-text .divider { margin-left: 0; }
+    .about-text p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      font-weight: 300;
+      line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-stats {
+      display: flex; gap: 2.5rem;
+      margin-top: 2rem;
+    }
+    .stat { }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--rose);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 0.25rem;
+    }
+
+    /* SEASONAL NOTE */
+    .seasonal-note {
+      padding: 4rem 3rem;
+      background: var(--rose);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .seasonal-note::before {
+      content: '🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸';
+      position: absolute; top: 1rem; left: 0; right: 0;
+      font-size: 1.2rem; opacity: 0.2; letter-spacing: 0.5rem;
+    }
+    .seasonal-note::after {
+      content: '🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸🌷🌸';
+      position: absolute; bottom: 1rem; left: 0; right: 0;
+      font-size: 1.2rem; opacity: 0.2; letter-spacing: 0.5rem;
+    }
+    .seasonal-note h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+    .seasonal-note p {
+      font-size: 0.9rem; font-weight: 300; opacity: 0.88;
+      max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.8;
+    }
+    .season-indicators {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .season-pill {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      padding: 0.45rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+    .season-pill.active {
+      background: #fff;
+      color: var(--rose);
+    }
+
+    /* CONTACT */
+    .contact {
+      padding: 6rem 3rem;
+      background: var(--warm-white);
+    }
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+    .contact-card {
+      background: var(--cream);
+      border: 1px solid var(--gold-light);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      display: block;
+    }
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(212,132,122,0.15);
+      background: var(--blush);
+    }
+    .contact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .contact-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; margin-bottom: 0.3rem;
+    }
+    .contact-card p {
+      font-size: 0.78rem; color: var(--text-light); font-weight: 300;
+    }
+    .contact-form {
+      background: var(--cream);
+      border: 1px solid var(--gold-light);
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: left;
+    }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      border: 1.5px solid var(--petal);
+      background: #fff;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--rose); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%;
+      background: var(--rose);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      border-radius: 40px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(212,132,122,0.3);
+      margin-top: 0.5rem;
+    }
+    .form-submit:hover:not(:disabled) {
+      background: var(--deep-rose);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(212,132,122,0.4);
+    }
+    .form-submit:disabled {
+      background: #c8bdb9;
+      color: rgba(255,255,255,0.7);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* WISHLIST PANEL */
+    .wishlist-panel-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(58,46,43,0.45);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .wishlist-panel-backdrop.open { opacity: 1; pointer-events: all; }
+    .wishlist-panel {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(420px, 100vw);
+      background: var(--warm-white);
+      border-left: 1px solid var(--gold-light);
+      z-index: 501;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(.4,0,.2,1);
+      box-shadow: -12px 0 40px rgba(58,46,43,0.1);
+    }
+    .wishlist-panel-backdrop.open .wishlist-panel { transform: translateX(0); }
+    .wishlist-panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 1.8rem;
+      border-bottom: 1px solid var(--gold-light);
+      flex-shrink: 0;
+    }
+    .wishlist-panel-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--text);
+    }
+    .wishlist-panel-close {
+      background: none; border: none; font-size: 1.3rem;
+      color: var(--text-light); cursor: pointer;
+      transition: color 0.2s;
+    }
+    .wishlist-panel-close:hover { color: var(--rose); }
+    .wishlist-panel-body {
+      flex: 1; overflow-y: auto;
+      padding: 1.2rem 1.8rem;
+    }
+    .wishlist-panel-empty {
+      text-align: center; padding: 3rem 1rem;
+      color: var(--text-light);
+    }
+    .wishlist-panel-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .wishlist-panel-empty p { font-size: 0.88rem; line-height: 1.7; }
+    .wishlist-item {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--cream);
+      border: 1px solid var(--gold-light);
+      border-radius: 14px;
+      padding: 0.9rem;
+      margin-bottom: 0.8rem;
+      transition: box-shadow 0.2s;
+    }
+    .wishlist-item:hover { box-shadow: 0 4px 16px rgba(212,132,122,0.1); }
+    .wishlist-item-img {
+      width: 62px; height: 62px; border-radius: 10px;
+      background: var(--blush); overflow: hidden; flex-shrink: 0;
+      font-size: 1.8rem; display: flex; align-items: center; justify-content: center;
+    }
+    .wishlist-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .wishlist-item-info { flex: 1; min-width: 0; }
+    .wishlist-item-name {
+      font-size: 0.85rem; font-weight: 500; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+    .wishlist-item-cat { font-size: 0.72rem; color: var(--text-light); }
+    .wishlist-item-price { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--rose); font-weight: 600; margin-top: 0.2rem; }
+    .wishlist-item-remove {
+      background: none; border: none; font-size: 1rem;
+      color: var(--text-light); cursor: pointer; flex-shrink: 0;
+      transition: color 0.2s; padding: 0.3rem;
+    }
+    .wishlist-item-remove:hover { color: var(--rose); }
+    .wishlist-count-badge {
+      position: absolute; top: -5px; right: -5px;
+      background: var(--rose); color: #fff;
+      font-size: 0.6rem; font-weight: 600;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+    .nav-wishlist-btn {
+      position: relative;
+      background: none; border: none;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; gap: 0.4rem;
+      color: var(--text-light); transition: color 0.2s;
+      padding: 0;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .nav-wishlist-btn:hover { color: var(--rose); }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.7);
+      padding: 3rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .footer-logo span { color: var(--petal); font-style: italic; }
+    .footer-tagline {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 1.5rem;
+    }
+    .footer-links {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+      list-style: none; margin-bottom: 1.5rem;
+    }
+    .footer-links a {
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--petal); }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 0.6rem 1.5rem; height: 70px; display: flex; align-items: center;}
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .hero-deco { display: none; }
+      .categories, .products, .about, .contact { padding: 4rem 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .about-stats { gap: 1.5rem; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("zQL2gVQoNT5RbP5uQ");</script>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Floating Petals Background -->
+  <div class="petal-bg" id="petalBg"></div>
+
+  <!-- NAV -->
+  <nav>
+<a href="#" class="nav-logo"><img src="Images/LittleLuxeCo Logo.jpeg" alt="Little Luxe Co." style="height:60px;width:auto;object-fit:contain;"></a>
+    <ul class="nav-links">
+      <li><a href="#products">Shop</a></li>
+      <!--<li><a href="#categories">Categories</a></li>-->
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-wishlist-btn" onclick="openWishlistPanel()" title="View Wishlist">
+      <span style="font-size:1rem;">🤍</span>
+      Wishlist
+      <span class="wishlist-count-badge" id="navWishBadge" style="display:none;">0</span>
+    </button>
+  </nav>
+
+  <!-- SEASON STRIP -->
+  <div class="season-strip" style="margin-top:100px;">
+    🌸 Spring Collection Now Live <span>·</span> Seasonal Designs Change Every Quarter <span>·</span> Handpicked with Love 🌷
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-tag">🌸 Spring 2026 Collection</div>
+      <h1>Little things,<br><em>luxuriously</em><br>yours.</h1>
+      <p>Seasonal kitchenware, printed apparel & Books mystery bundle — curated for people of all ages who find joy in everyday things</p>
+      <div class="hero-btns">
+        <a href="#products" class="btn-primary">Shop the Collection</a>
+        <a href="#about" class="btn-outline">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-deco">
+      <div class="hero-circle hc1"></div>
+      <div class="hero-circle hc2"></div>
+      <div class="hero-flowers">🌸</div>
+    </div>
+    <div class="hero-season-badge">
+      <div class="season">🌷</div>
+      <p>Currently<br>Spring Season</p>
+    </div>
+    <div class="hero-offers">
+  <div class="offer-card">
+    <div class="offer-icon">🎉</div>
+    <div class="offer-text">
+      <strong>10% off your first order</strong>
+      <span>Discount will be applied to your invoice email</span>
+    </div>
+  </div>
+  <div class="offer-card">
+    <div class="offer-icon">🍽️</div>
+    <div class="offer-text">
+      <strong>50% off your 6th order</strong>
+      <span>Applicable on Kitchen Supplies only</span>
+    </div>
+  </div>
+  <div class="offer-card">
+    <div class="offer-icon">🚚</div>
+    <div class="offer-text">
+      <strong>Free Shipping above €45</strong>
+      <span>On all orders, no code needed</span>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- CATEGORIES
+  <section class="categories" id="categories">
+    <div class="section-header reveal">
+      <div class="section-tag">✦ Browse by Category</div>
+      <h2>Find your <em>favourite</em></h2>
+      <p>From your morning coffee ritual to your evening desk setup — we have something for every little moment.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="cat-grid reveal">
+      <a href="#products" class="cat-card">
+        <div class="cat-icon">☕</div>
+        <h3>Mugs & Tumblers</h3>
+        <p>Coffee mugs · Thermal mugs · Tumblers</p>
+      </a>
+      <a href="#products" class="cat-card">
+        <div class="cat-icon">🍽️</div>
+        <h3>Plates & Dining</h3>
+        <p>Ceramic plates · Saucers · Sets</p>
+      </a>
+      <a href="#products" class="cat-card">
+        <div class="cat-icon">👕</div>
+        <h3>Printed Tees</h3>
+        <p>Seasonal prints · Cute illustrations</p>
+      </a>
+      <a href="#products" class="cat-card">
+        <div class="cat-icon"> ✦ </div>
+        <h3>Blind Date Book Mystery Bundle</h3>
+        <p>Mystery Bundle as per illustrations</p>
+      </a>
+      <a href="#products" class="cat-card">
+        <div class="cat-icon">✨</div>
+        <h3>Coming Soon</h3>
+        <p>Stationery · Brewery goods · Charms</p>
+      </a>
+    </div>
+  </section>-->
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="section-header reveal">
+      <div class="section-tag">✦ Spring Collection</div>
+      <h2>This season's <em>treasures</em></h2>
+      <p>Each piece is thoughtfully designed for the season — collect them all before they're gone.</p>
+      <div class="divider"></div>
+    </div>
+
+   <!-- <div class="product-filters reveal">
+      <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('Bookmarks', this)">Acrylic Bookmarks</button>
+      <button class="filter-btn" onclick="filterProducts('Glass Mugs', this)">Glass Mugs</button>
+      <button class="filter-btn" onclick="filterProducts('Ceramic Mugs', this)">Ceramic Mugs</button>
+      <button class="filter-btn" onclick="filterProducts('Thermal Travel Tumbler', this)">Thermal Travel Tumbler</button>
+      <button class="filter-btn" onclick="filterProducts('Glass Tumbler with Bamboo Lid & Straw', this)">Glass Tumbler with Straw</button>
+      <button class="filter-btn" onclick="filterProducts('Blind Date with a Book', this)">Blind Date with a Book</button>
+      <button class="filter-btn" onclick="filterProducts('Keychains', this)">Keychains</button>
+      <button class="filter-btn" onclick="filterProducts('Blind Book Date Bundle', this)">Blind Book Date Bundle</button>
+      <button class="filter-btn" onclick="filterProducts('Surprise Box', this)">Surprise Box</button>
+    </div>-->
+
+    <div class="product-grid" id="productGrid">
+
+      <!-- Product 1 -->
+      <div class="product-card reveal" data-cat="Bookmarks" onclick="window.location='product.html?id=Bookmark-1'" style="cursor:pointer;">
+        <div class="product-img" style="background:var(--blush);">
+          <img src="Images/Bookmarks/Freesia Pink.png" alt=""><div class="product-badge new">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Acrylic Bookmarks</div>
+          <div class="product-name">Coloured Bookmark</div>
+          <!--<div class="product-desc">Coloured Bookmark</div>-->
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>5</div>
+            <button class="wishlist-btn" data-pid="Bookmark-1" data-name="Bookmark" data-cat="Acrylic Bookmarks" data-price="€5" data-img="Images/Bookmarks/Freesia Pink.png" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 1 -->
+      <div class="product-card reveal" data-cat="Glass Mugs" onclick="window.location='product.html?id=mug-1'" style="cursor:pointer;">
+        <div class="product-img" style="background:var(--blush);">
+          <img src="Images/Glass Mugs/Kitten & Book 1_1.png" alt="">
+          <!--<div class="product-badge new">New</div>-->
+        </div>
+        <div class="product-info">
+          <div class="product-category">Glass Mugs</div>
+          <div class="product-name">Glass Mugs</div>
+          <!--<div class="product-desc">Personalized Glass mug with our signature Best Friends Forever illustration. Dishwasher safe. 2 for €14  (Applicable for same pattern only)</div>-->
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>8</div>
+            <button class="wishlist-btn" data-pid="mug-1" data-name="Glass Mugs" data-cat="Glass Mugs" data-price="€8" data-img="Images/Glass Mugs/Kitten & Book 1_1.png" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card reveal" data-cat="Ceramic Mugs" onclick="window.location='product.html?id=mug-2'" style="cursor:pointer;">
+        <div class="product-img" style="background:#e8ede4;">
+          <img src="Images/Ceramic Mugs/Kitten & Book 1.png" alt="">
+          <!--<div class="product-badge ">Bestseller</div>-->
+        </div>
+        <div class="product-info">
+          <div class="product-category">Ceramic Mugs</div>
+          <div class="product-name">Ceramic Mugs</div>
+          <!--<div class="product-desc">Personalized Ceramic mug with our signature Iced Coffee Queen illustration. Dishwasher safe.</div>-->
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>8</div>
+            <button class="wishlist-btn" data-pid="mug-2" data-name="Ceramic Mugs" data-cat="Ceramic Mugs" data-price="€8" data-img="Images/Ceramic Mugs/Kitten & Book 1.png" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card reveal" data-cat="mugs" onclick="window.location='product.html?id=mug-3'" style="cursor:pointer;">
+        <div class="product-img" style="background:#e8ede4;">
+          <img src="Images/Thermal Mug/Thermal_Mug.avif" alt=""><div class="product-badge ">Bestseller</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Thermal Travle Tumbler</div>
+          <div class="product-name">Thermal Travel Tumbler</div>
+          <div class="product-desc">Custom Order Request - Currently available to Add Initials - Add Initials of your preference in the message box while Ordering. Dishwasher safe.</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>15</div>
+            <button class="wishlist-btn" data-pid="mug-3" data-name="Thermal Travel Tumbler" data-cat="Thermal Travel Tumbler" data-price="€15" data-img="Images/Thermal Mug/Thermal_Mug.avif" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+            <!-- Product 4 -->
+      <div class="product-card reveal" data-cat="mugs" onclick="window.location='product.html?id=glass-1'" style="cursor:pointer;">
+        <div class="product-img" style="background:#e8ede4;">
+          <img src="Images/Tumbler with Straw/Books 1.png" alt=""><div class="product-badge new">Bestseller</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Glass Tumbler with Bamboo Lid & Straw</div>
+          <div class="product-name">Spring Themed Glass Tumbler</div>
+          <div class="product-desc">Glass Tumbler with Bamboo Lid and Reusable Straw 500ml.</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>10</div>
+            <button class="wishlist-btn" data-pid="glass-1" data-name="Spring Themed Glass Tumbler with Bamboo Lid & Straw" data-cat="Tumbler with Straw" data-price="€10" data-img="Images/Tumbler with Straw/Books 1.png" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card reveal" data-cat="Blind Date with a Book" onclick="window.location='product.html?id=Blind Date with a Book'" style="cursor:pointer;">
+        <div class="product-img" style="background: #f0ece4;">
+          <img src="Images/Blind Date Book/image0.jpeg" alt=""><div class="product-badge ">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Blind Date with a Book</div>
+          <div class="product-name">Mystery Book</div>
+          <div class="product-desc">Just the Book, Just the surprise, Just the experience. A beautifully wrapped Mystery Book chosen to surprise and delight every reader.</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>25</div>
+            <button class="wishlist-btn" data-pid="Blind Date with a Book" data-name="Blind Date with a Book" data-cat="Blind Date with a Book" data-price="€25" data-img="Images/Blind Date Book/Image1.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+            <!-- Product 5 -->
+      <div class="product-card reveal" data-cat="Keychains" onclick="window.location='product.html?id=Keychains'" style="cursor:pointer;">
+        <div class="product-img" style="background: #f0ece4;">
+          <img src="Images/Keychain/Mini Resin Keychain Freesia.jpeg" alt=""><div class="product-badge ">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Keychains</div>
+          <div class="product-name">Mini Resin Keychain</div>
+          <div class="product-desc">Spring Themed Keychains</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>5</div>
+            <button class="wishlist-btn" data-pid="Keychains" data-name="Mini Resin Keychain" data-cat="Keychains" data-price="€5" data-img="Images/Keychains/Mini Resin Keychain Freesia.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 6
+      <div class="product-card reveal" data-cat="clothing" onclick="window.location='product.html?id=clothing-toddler'" style="cursor:pointer;">
+        <div class="product-img" style="background:#fce8ec;">
+          <img src="Images/TT-Shirt1.jpeg" alt=""><div class="product-badge new">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Printed Tees &amp; Patterns</div>
+          <div class="product-name">Customizable Toddler T-Shirt</div>
+          <div class="product-desc">Toddler T-shirt &#8212; Customisable with initials. Available sizes (0&#8211;10 years)</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>10</div>
+            <button class="wishlist-btn" data-pid="clothing-toddler" data-name="Customizable Toddler T-Shirt" data-cat="Printed Tees" data-price="€10" data-img="Images/TT-Shirt1.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>-->
+
+      <!-- Product 7
+      <div class="product-card reveal" data-cat="clothing" onclick="window.location='product.html?id=clothing-women'" style="cursor:pointer;">
+        <div class="product-img" style="background:#fce8ec;">
+          <img src="Images/WT-Shirt.jpeg" alt=""><div class="product-badge new">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Printed Tees &amp; Patterns</div>
+          <div class="product-name">Customizable Women&#8217;s Printed T-Shirt</div>
+          <div class="product-desc">Women &#8212; Customisable with initials or full name + floral patterns as per request. Available sizes (XS &#8211; 5XL)</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>10</div>
+            <button class="wishlist-btn" data-pid="clothing-women" data-name="Customizable Women&#8217;s Printed T-Shirt" data-cat="Printed Tees" data-price="€10" data-img="Images/WT-Shirt.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>-->
+
+<!-- Product  -->
+      <div class="product-card reveal" data-cat="Blind Book Date Mystery Bundle" onclick="window.location='product.html?id=bundle-1'" style="cursor:pointer;">
+        <div class="product-img">
+          <img src="Images/Mystery Bundle/Book1.jpeg" alt=""><div class="product-badge new">Bestseller</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Blind Book Date Bundle</div>
+          <div class="product-name">Your Book Bundle</div>
+          <div class="product-desc">Blind date with a book bundle:<br><br>
+          What’s included:<br>
+          A blind date with a book <em>(Genre / Language (ENG, FRA, NL, DE - your choice)</em><br>
+          A Coffee Mug/Glass Tumbler with Bamboo Lid & Straw<em>(chosen in random)</em><br>
+          Bookmark<br>
+          Printed Canvas Bag<br>
+          Keychain/Bag-charm</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>50</div>
+            <button class="wishlist-btn" data-pid="bundle-1" data-name="Your Book Bundle" data-cat="Blind Book Date Bundle" data-price="€50" data-img="Images/Book.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product  -->
+      <div class="product-card reveal" data-cat="Surprise_Box Bundle" onclick="window.location='product.html?id=Surprise Box-1'" style="cursor:pointer;">
+        <div class="product-img">
+          <img src="Images/Surprise Box/Surprise_Box.png" alt=""><div class="product-badge new">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Surprise Box Bundle</div>
+          <div class="product-name">Your Surprise Box Bundle</div>
+          <div class="product-desc">Surprise Box bundle:<br><br>
+          What’s included:<br>
+          12 surprise goodies inside + a freebie<br></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>60</div>
+            <button class="wishlist-btn" data-pid="Surprise Box-1" data-name="Your Book Bundle" data-cat="Surprise Box Bundle" data-price="€50" data-img="Images/Book.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="about-visual reveal">
+        <!-- <div class="about-img-wrap">🌸</div> -->
+         <img src="Images/Logo.jpeg" style="width:100%;max-width:520px;height:auto;border-radius:30px;object-fit:cover;">
+        <div class="about-deco"></div>
+        <div class="about-deco2"></div>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-header" style="text-align:left;">
+          <div class="section-tag">✦ Our Story</div>
+          <h2>Made with <em>love</em>,<br>one season at a time.</h2>
+          <div class="divider"></div>
+        </div>
+        <p>
+          <strong>Little Luxe Co.</strong> was born from a simple belief — that the everyday objects around us deserve to be beautiful. A morning mug, a tote bag charm, a plate on your desk — these small things shape the texture of our days.
+        </p>
+        <p>
+          We design in seasons, letting nature guide our palette and our prints. Spring brings florals and pastels. Summer, bold citrus. Autumn, warm earth tones. Winter, icy blues and cosy warmth. <strong>Each collection is limited</strong>, so every piece feels truly special.
+        </p>
+        <p>
+          Our pieces are made for <strong>for all ages</strong> who appreciate the little luxuries — the kind that don't cost a fortune but feel like they do.
+        </p>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Seasons<br>a year</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Made with<br>intention</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Love for<br>small things</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASONAL NOTE -->
+  <div class="seasonal-note">
+    <h2>Designs change every season 🌷</h2>
+    <p>Our collections are limited and seasonal. Once a season ends, those designs are gone forever. Don't miss your favourites!</p>
+    <div class="season-indicators">
+      <div class="season-pill active">🌸 Spring — Now</div>
+      <div class="season-pill">☀️ Summer — Coming soon</div>
+      <div class="season-pill">🍂 Autumn</div>
+      <div class="season-pill">❄️ Winter</div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="section-header reveal">
+        <div class="section-tag">✦ Get in Touch</div>
+        <h2>Say <em>hello</em> 🌸</h2>
+        <p>Questions about an order, a custom request, or just want to share some love? We'd love to hear from you.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="contact-cards reveal">
+        <a href="https://instagram.com/little.luxe.co.shop" target="_blank" class="contact-card">
+          <div class="contact-icon">📸</div>
+          <h3>Instagram</h3>
+          <p>@little.luxe.co.shop<br>Follow for updates</p>
+        </a>
+        <a href="https://mail.google.com/mail/?view=cm&to=littleluxeco.eu@gmail.com&su=Enquiry%20from%20Little%20Luxe%20Co.%20Website" target="_blank" class="contact-card">
+          <div class="contact-icon">💌</div>
+          <h3>Email Us</h3>
+          <p>littleluxeco.eu@gmail.com<br>We reply within 24hrs</p>
+        </a>
+        <a href="https://wa.me/32472312029" target="_blank" class="contact-card">
+          <div class="contact-icon">💬</div>
+          <h3>WhatsApp</h3>
+          <p>Message us directly on +32 472 312 029</p>
+        </a>
+      </div>
+
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name <span style="color:var(--rose)">*</span></label>
+            <input type="text" id="formName" placeholder="e.g. Sophie" required>
+          </div>
+          <div class="form-group">
+            <label>Email <span style="color:var(--rose)">*</span></label>
+            <input type="email" id="formEmail" placeholder="hello@example.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+            <label>MOBILE NUMBER</label>
+            <input type="Mobile Number" id="formMobileNumber" placeholder="Enter Mobile number with country code (e.g. +32 471 23 45 67)" required>
+          </div>
+        <div class="form-group">
+            <label>ADDRESS LINE</label>
+            <input type="Address" id="formAddress" placeholder="Address with Post Box Number" required>
+          </div>
+          <div class="form-row">
+          <div class="form-group">
+            <label>POSTCODE</label>
+            <input type="text" id="formPostcode" placeholder="e.g. 1000" required>
+          </div>
+          <div class="form-group">
+            <label>CITY</label>
+            <input type="text" id="formCity" placeholder="e.g. Brussels, Belgium" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+  <label>Subject</label>
+  <select id="subjectSelect" onchange="showCategory()">
+    <option value="">-- Select --</option>
+    <option value="general">General enquiry</option>
+    <option value="order">Order question</option>
+    <option value="custom">Custom order request</option>
+    <option value="hi">Just saying hi 🌸</option>
+  </select>
+</div>
+
+<!-- Category — only shows when Custom Order is selected -->
+<div class="form-group" id="categoryGroup" style="display:none;">
+  <label>Category</label>
+  <select id="categorySelect" onchange="showCategoryOptions()">
+    <option value="">-- Select Category --</option>
+    <option value="Bookmarks">Acrylic Bookmarks</option>
+    <option value="Glass Mugs">Glass Mugs</option>
+    <option value="Ceramic Mugs">Ceramic Mugs</option>
+    <option value="Thermal Travel Tumbler">Thermal Travel Tumbler</option>
+    <option value="Glass Tumbler with Straw">Glass Tumbler with Straw</option>
+    <option value="Blind Date with a Book">Blind Date with a Book</option>
+    <option value="Keychains">Keychains</option>
+    <option value="Blind Book Date Bundle">Blind Book Date Bundle</option>
+    <option value="Surprise Box">Surprise Box</option>
+  </select>
+</div>
+
+<!-- Mug Model — shows when Mugs & Tumblers is selected -->
+<div class="form-group" id="mugModelGroup" style="display:none;">
+  <label>Choose a Mug Model <span style="color:var(--rose)">*</span></label>
+  <div id="mugModelGrid" style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem;"></div>
+  <input type="hidden" id="selectedMugModel" name="selectedMugModel">
+  <p id="selectedMugModelName" style="font-size:0.75rem;color:var(--rose);margin-top:0.5rem;font-style:italic;min-height:1.2em;"></p>
+</div>
+
+<!-- Clothing Size Chart — shows when Clothing is selected -->
+<div class="form-group" id="clothingSizeGroup" style="display:none;">
+  <label>Size Chart <span style="color:var(--rose)">*</span></label>
+  <div id="clothingSizeGrid" style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem;"></div>
+  <input type="hidden" id="selectedClothingSize" name="selectedClothingSize">
+  <p id="selectedClothingSizeName" style="font-size:0.75rem;color:var(--rose);margin-top:0.5rem;font-style:italic;min-height:1.2em;"></p>
+</div>
+
+<!-- Patterns — shows after category is selected -->
+<div class="form-group" id="patternGroup" style="display:none;">
+  <label id="patternGroupLabel">Choose a Pattern</label>
+  <div id="patternGrid" style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem;"></div>
+  <input type="hidden" id="selectedPattern" name="selectedPattern">
+  <p id="selectedPatternName" style="font-size:0.75rem;color:var(--rose);margin-top:0.5rem;font-style:italic;"></p>
+</div>
+<!-- Quantity — shows after pattern is chosen -->
+<div class="form-group" id="quantityGroup" style="display:none;">
+  <label>Quantity <span style="color:var(--rose)">*</span></label>
+  <div style="display:flex;align-items:center;gap:1rem;margin-top:0.5rem;">
+    <div style="display:flex;align-items:center;border:1.5px solid var(--petal);border-radius:30px;overflow:hidden;">
+      <button type="button" onclick="changeFormQty(-1)" style="background:none;border:none;width:38px;height:38px;font-size:1.2rem;cursor:pointer;color:var(--text-light);">&#8722;</button>
+      <div id="formQtyDisplay" style="min-width:36px;text-align:center;font-size:0.95rem;font-weight:500;color:var(--text-light);">0</div>
+      <button type="button" onclick="changeFormQty(1)" style="background:none;border:none;width:38px;height:38px;font-size:1.2rem;cursor:pointer;color:var(--text-light);">+</button>
+    </div>
+    <input type="hidden" id="formQty" value="0">
+    <span style="font-size:0.78rem;color:var(--text-light);">items</span>
+  </div>
+</div>
+
+<!-- ADD TO ORDER BUTTON -->
+<button type="button" onclick="addItemToOrder()"
+  style="width:100%;background:var(--moss);color:#fff;border:none;padding:0.85rem;border-radius:40px;font-family:'Jost',sans-serif;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin:0.8rem 0 1rem;"
+  onmouseover="this.style.background='#5e7050'" onmouseout="this.style.background='var(--moss)'">
+  + Add to Order
+</button>
+
+<!-- SELECTED ITEMS LIST -->
+<div id="selectedItemsBox" style="display:none;margin-bottom:1.2rem;background:var(--cream);border:1px solid var(--gold-light);border-radius:16px;padding:1rem 1.2rem;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;">
+    <p style="font-size:0.72rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--text);font-weight:500;">Your Order Summary</p>
+    <button type="button" onclick="clearOrderItems()"
+      style="font-size:0.68rem;color:var(--text-light);background:none;border:1px solid var(--petal);border-radius:20px;padding:0.2rem 0.7rem;cursor:pointer;transition:all 0.2s;"
+      onmouseover="this.style.color='var(--rose)';this.style.borderColor='var(--rose)'"
+      onmouseout="this.style.color='var(--text-light)';this.style.borderColor='var(--petal)'">Clear All</button>
+  </div>
+  <div id="orderItemsList"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;border-top:1.5px solid var(--gold-light);padding-top:0.8rem;margin-top:0.4rem;">
+    <span style="font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);">Estimated Total</span>
+    <span style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose);font-weight:600;">&#8364;<span id="orderTotal">0</span></span>
+  </div>
+</div>
+        <div class="form-group">
+          <label>Message <span style="color:var(--rose)">*</span></label>
+          <textarea id="formMessage" placeholder="Tell us what's on your mind..."></textarea>
+        </div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit(event)">Send Message 🌸</button>
+      </div>
+    </div>
+  </section>
+</div>
+  </div>
+
+  <!-- WISHLIST PANEL -->
+  <div class="wishlist-panel-backdrop" id="wishlistBackdrop" onclick="if(event.target===this)closeWishlistPanel()">
+    <div class="wishlist-panel">
+      <div class="wishlist-panel-header">
+        <h2>My Wishlist 🤍</h2>
+        <button class="wishlist-panel-close" onclick="closeWishlistPanel()">✕</button>
+      </div>
+      <div class="wishlist-panel-body" id="wishlistPanelBody">
+        <div class="wishlist-panel-empty">
+          <div class="empty-icon">🤍</div>
+          <p>Your wishlist is empty.<br>Tap the 🤍 on any product to save it here.</p>
+        </div>
+      </div>
+</div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Little <span>Luxe</span> Co.</div>
+    <div class="footer-tagline">Seasonal treasures · Made with love</div>
+    <ul class="footer-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#products">Shop</a></li>
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" onclick="toggleShippingPolicy(event)" id="shippingToggleLink" style="transition:color 0.2s;">Shipping &amp; Returns</a></li>
+    </ul>
+
+    <div id="shippingPolicyBox" style="
+      display:none;
+      max-width:620px;
+      margin:0 auto 1.4rem;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.18);
+      border-radius:14px;
+      padding:1.1rem 1.6rem;
+      font-size:0.8rem;
+      color:rgba(255,255,255,0.8);
+      line-height:1.9;
+      text-align:left;
+    ">
+      Since all our products are personalized according to customer needs, returns are not applicable. In case of any damages, it should be reported within 24 hours of product delivery.
+    </div>
+
+    <div class="footer-copy">© 2025 Little Luxe Co. All rights reserved. · Designs change every season 🌸</div>
+    <div class="footer-copy">
+    <p><strong>Notice – Protection Against Fraudulent Activity</strong></p>
+    <p>Please be aware of potential online scams and fraudulent communications.</p>
+    <p>All official communication and payment instructions from our online store are sent ONLY through invoices that include a QR code and ONLY from our dedicated email address: littleluxeco.eu@gmail.com</p>
+    <p>We do not accept any bank transfers without a valid invoice and we do not support offline payment arrangements. If you receive any calls, messages, or emails requesting payment outside this process, please do not respond. Always verify the sender’s email address before taking any action. We cannot be held responsible for any losses resulting from payments made through unauthorized communication channels.</p>
+    <p>If you suspect impersonation or fraudulent activity, please contact us immediately using our official email address or phone number provided on the webiste. Response time - Within 24 hrs</p></div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+    document.querySelectorAll('a,button,.product-card,.cat-card,.contact-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width='16px'; cursor.style.height='16px'; ring.style.width='44px'; ring.style.height='44px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width='10px'; cursor.style.height='10px'; ring.style.width='32px'; ring.style.height='32px'; });
+    });
+
+    // Floating petals
+    const petals = ['🌸','🌷','🌼','🍃','✿','❀'];
+    const pb = document.getElementById('petalBg');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'fp';
+      p.textContent = petals[Math.floor(Math.random() * petals.length)];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (8 + Math.random() * 14) + 's';
+      p.style.animationDelay = (-Math.random() * 20) + 's';
+      p.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+      pb.appendChild(p);
+    }
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => obs.observe(r));
+
+    // Product filter
+    function filterProducts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.product-card').forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // ── WISHLIST SYSTEM (localStorage) ──
+    function loadWishlist() {
+      try { return JSON.parse(localStorage.getItem('llc_wishlist') || '[]'); } catch(e) { return []; }
+    }
+    function saveWishlist(list) {
+      try { localStorage.setItem('llc_wishlist', JSON.stringify(list)); } catch(e) {}
+    }
+    function updateWishlistBadge() {
+      var list = loadWishlist();
+      var badge = document.getElementById('navWishBadge');
+      if (badge) {
+        badge.textContent = list.length;
+        badge.style.display = list.length > 0 ? 'flex' : 'none';
+      }
+    }
+    function syncWishlistButtons() {
+      var list = loadWishlist();
+      var ids = list.map(function(i){ return i.pid; });
+      document.querySelectorAll('.wishlist-btn[data-pid]').forEach(function(btn) {
+        btn.textContent = ids.indexOf(btn.dataset.pid) > -1 ? '❤️' : '🤍';
+      });
+    }
+    function toggleWishlistItem(btn) {
+      var pid   = btn.dataset.pid;
+      var name  = btn.dataset.name;
+      var cat   = btn.dataset.cat;
+      var price = btn.dataset.price;
+      var img   = btn.dataset.img;
+      var list  = loadWishlist();
+      var idx   = list.findIndex(function(i){ return i.pid === pid; });
+      if (idx > -1) {
+        list.splice(idx, 1);
+        btn.textContent = '🤍';
+      } else {
+        list.push({ pid: pid, name: name, cat: cat, price: price, img: img });
+        btn.textContent = '❤️';
+      }
+      saveWishlist(list);
+      updateWishlistBadge();
+    }
+    function openWishlistPanel() {
+      var list = loadWishlist();
+      var body = document.getElementById('wishlistPanelBody');
+      if (list.length === 0) {
+        body.innerHTML = '<div class="wishlist-panel-empty"><div class="empty-icon">🤍</div><p>Your wishlist is empty.<br>Tap the 🤍 on any product to save it here.</p></div>';
+      } else {
+        body.innerHTML = '';
+        list.forEach(function(item) {
+          var el = document.createElement('div');
+          el.className = 'wishlist-item';
+          el.innerHTML =
+            '<div class="wishlist-item-img"><img src="' + item.img + '" alt="" onerror="this.style.display=\'none\'"></div>' +
+            '<div class="wishlist-item-info">' +
+              '<div class="wishlist-item-name">' + item.name + '</div>' +
+              '<div class="wishlist-item-cat">' + item.cat + '</div>' +
+              '<div class="wishlist-item-price">' + item.price + '</div>' +
+            '</div>' +
+            '<button class="wishlist-item-remove" title="Remove" onclick="removeWishlistItem(\'' + item.pid + '\')">✕</button>';
+          body.appendChild(el);
+        });
+        var viewBtn = document.createElement('a');
+        viewBtn.href = 'index.html#products';
+        viewBtn.style.cssText = 'display:block;text-align:center;margin-top:1.2rem;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--rose);text-decoration:none;border:1.5px solid var(--rose);border-radius:30px;padding:0.7rem;transition:all 0.2s;';
+        viewBtn.textContent = 'Continue Shopping 🌸';
+        viewBtn.onmouseenter = function(){ this.style.background='var(--rose)'; this.style.color='#fff'; };
+        viewBtn.onmouseleave = function(){ this.style.background=''; this.style.color='var(--rose)'; };
+        body.appendChild(viewBtn);
+      }
+      document.getElementById('wishlistBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function removeWishlistItem(pid) {
+      var list = loadWishlist();
+      list = list.filter(function(i){ return i.pid !== pid; });
+      saveWishlist(list);
+      updateWishlistBadge();
+      syncWishlistButtons();
+      openWishlistPanel();
+    }
+    function closeWishlistPanel() {
+      document.getElementById('wishlistBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    syncWishlistButtons();
+    updateWishlistBadge();
+
+    // ── SEND MESSAGE BUTTON — disable until all required fields filled ──
+    (function() {
+      var requiredIds = ['formName','formEmail','formMobileNumber','formAddress','formPostcode','formCity','formMessage'];
+      var btn = document.getElementById('submitBtn');
+      if (!btn) return;
+      function checkFormReady() {
+        var allFilled = requiredIds.every(function(id){
+          var el = document.getElementById(id);
+          return el && el.value.trim().length > 0;
+        });
+        btn.disabled = !allFilled;
+      }
+      requiredIds.forEach(function(id){
+        var el = document.getElementById(id);
+        if (el) { el.addEventListener('input', checkFormReady); el.addEventListener('change', checkFormReady); }
+      });
+      btn.disabled = true;
+    })();
+
+    var orderItems = [];
+    var orderItemCounter = 0;
+
+    var categoryPriceMap = {
+      'Bookmarks': 5, 'Glass Mugs': 8, 'Ceramic Mugs': 8,
+      'Keychains': 5, 'Glass Tumbler with Straw': 10,
+      'Thermal Travel Tumbler': 15, 'Blind Date with a Book': 25,
+      'Blind Book Date Bundle': 50, 'Surprise Box': 60
+    };
+    function getItemPrice(catVal, mugModel) {
+      if (catVal === 'mugs') return categoryPriceMap[mugModel] || 8;
+      return categoryPriceMap[catVal] || 0;
+    }
+    // New categories that use direct pattern selection (not the old 'mugs' flow)
+    var directPatternCategories = ['Bookmarks','Glass Mugs','Ceramic Mugs','Keychains','Glass Tumbler with Straw','Thermal Travel Tumbler','Blind Date with a Book'];
+
+    // Combo pricing: pairs of eligible mugs get a discount
+    var comboPriceMap = {
+      'Glass Mug':     { unit: 8,  pair: 14 },
+      'Thermal Mug':   { unit: 15, pair: 27 },
+      'Glass Tumbler': { unit: 10, pair: 18 }
+    };
+    function calcLineTotal(mugModel, qty) {
+      var combo = comboPriceMap[mugModel];
+      if (!combo) {
+        // No combo for this model — flat unit price
+        return (categoryPriceMap[mugModel] || 8) * qty;
+      }
+      return Math.floor(qty / 2) * combo.pair + (qty % 2) * combo.unit;
+    }
+    function getComboLabel(mugModel, qty) {
+      var combo = comboPriceMap[mugModel];
+      if (!combo || qty < 2) return null;
+      var pairs = Math.floor(qty / 2);
+      var singles = qty % 2;
+      var parts = [];
+      if (pairs > 0)   parts.push(pairs + ' pair' + (pairs > 1 ? 's' : '') + ' \u00d7 \u20ac' + combo.pair);
+      if (singles > 0) parts.push(singles + ' single \u00d7 \u20ac' + combo.unit);
+      return parts.join(' + ');
+    }
+
+function addItemToOrder() {
+      var categoryEl   = document.getElementById('categorySelect');
+      var patternVal   = (document.getElementById('selectedPattern') || {value:''}).value.trim();
+      var mugModel     = (document.getElementById('selectedMugModel') || {value:''}).value.trim();
+      var size         = (document.getElementById('selectedClothingSize') || {value:''}).value.trim();
+      var qty          = parseInt((document.getElementById('formQty') || {value:'0'}).value) || 0;
+      var categoryVal  = categoryEl ? categoryEl.value : '';
+      var categoryText = categoryEl ? categoryEl.options[categoryEl.selectedIndex].text : '';
+
+      if (!categoryVal)                            { alert('Please select a category \uD83C\uDF38'); return; }
+      if (categoryVal === 'mugs' && !mugModel)     { alert('Please choose a mug model \uD83C\uDF38'); return; }
+      if (categoryVal === 'clothing' && !size)     { alert('Please choose a size \uD83C\uDF38'); return; }
+      // For new direct-pattern categories and old non-bundle categories, pattern is required
+      var needsPattern = (categoryVal !== 'bundle') && (categoryVal !== 'Surprise Box');
+      if (needsPattern && !patternVal)             { alert('Please choose a pattern \uD83C\uDF38'); return; }
+      if (qty < 1)                                 { alert('Please set a quantity of at least 1 \uD83C\uDF38'); return; }
+
+  orderItems.push({
+        id:       ++orderItemCounter,
+        category: categoryVal,
+        product:  categoryText,
+        mugModel: mugModel,
+        size:     size,
+        pattern:  patternVal,
+        qty:      qty,
+        price:    getItemPrice(categoryVal, mugModel)
+      });
+      renderOrderItems();
+    }
+
+    function removeOrderItem(id) {
+      orderItems = orderItems.filter(function(i){ return i.id !== id; });
+      renderOrderItems();
+    }
+
+    function clearOrderItems() {
+      if (!orderItems.length) return;
+      if (!confirm('Remove all items from your order?')) return;
+      orderItems = [];
+  renderOrderItems();
+}
+
+function renderOrderItems() {
+      var box  = document.getElementById('selectedItemsBox');
+      var list = document.getElementById('orderItemsList');
+      if (!box || !list) return;
+      if (orderItems.length === 0) {
+        box.style.display = 'none';
+        list.innerHTML = '';
+        var t = document.getElementById('orderTotal'); if (t) t.textContent = '0';
+        return;
+      }
+      box.style.display = 'block';
+      var html = '';
+      var grand = 0;
+      orderItems.forEach(function(item) {
+        var lt = (item.category === 'mugs' && item.mugModel)
+                   ? calcLineTotal(item.mugModel, item.qty)
+                   : item.price * item.qty;
+        grand += lt;
+        var desc = item.product;
+        if (item.mugModel) desc += ' — ' + item.mugModel;
+        if (item.size)     desc += ' — Size: ' + item.size;
+        if (item.pattern)  desc += ' — ' + item.pattern;
+        var comboLbl = (item.category === 'mugs') ? getComboLabel(item.mugModel, item.qty) : null;
+        var priceDetail = comboLbl
+          ? '(' + comboLbl + ') = <strong style="color:var(--rose);">&euro;' + lt + '</strong>'
+          : 'Qty: ' + item.qty + ' &times; &euro;' + item.price + ' = <strong style="color:var(--rose);">&euro;' + lt + '</strong>';
+        html += '<div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.7rem 0;border-bottom:1px solid var(--gold-light);">'
+          + '<div style="flex:1;min-width:0;">'
+          + '<div style="font-size:0.82rem;font-weight:500;color:var(--text);line-height:1.45;margin-bottom:0.2rem;">' + desc + '</div>'
+          + '<div style="font-size:0.72rem;color:var(--text-light);">Qty: ' + item.qty + ' &mdash; ' + priceDetail + '</div>'
+          + '</div>'
+          + '<button type="button" onclick="removeOrderItem(' + item.id + ')" '
+          + 'style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--text-light);flex-shrink:0;padding:0.1rem 0.3rem;transition:color 0.2s;" '
+          + 'onmouseover="this.style.color=\'var(--rose)\'" onmouseout="this.style.color=\'var(--text-light)\'">&times;</button>'
+          + '</div>';
+  });
+  list.innerHTML = html;
+      var t = document.getElementById('orderTotal'); if (t) t.textContent = grand;
+}
+
+    // Form submit — full validation + EmailJS
+    function buildOrderSummary() {
+     if (!orderItems.length) return '';
+      var s = '\n\n--- ORDER DETAILS ---\n';
+      var grand = 0;
+      orderItems.forEach(function(item, idx) {
+        var lt = (item.category === 'mugs' && item.mugModel)
+                   ? calcLineTotal(item.mugModel, item.qty)
+                   : item.price * item.qty;
+        grand += lt;
+        var line = (idx+1) + '. ' + item.product;
+        if (item.mugModel) line += ' | Model: ' + item.mugModel;
+        if (item.size)     line += ' | Size: '  + item.size;
+        if (item.pattern)  line += ' | Design: '+ item.pattern;
+        line += ' | Qty: ' + item.qty + ' | \u20AC' + lt;
+        s += line + '\n';
+      });
+      s += '---------------------\nTotal: \u20AC' + grand + '\n';
+      return s;
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      var name        = document.getElementById('formName').value.trim();
+      var email       = document.getElementById('formEmail').value.trim();
+      var MobileNumber= document.getElementById('formMobileNumber').value.trim();
+      var address     = (document.getElementById('formAddress')  || {value:''}).value.trim();
+      var postcode    = (document.getElementById('formPostcode') || {value:''}).value.trim();
+      var city        = (document.getElementById('formCity')     || {value:''}).value.trim();
+      var subjectEl   = document.getElementById('subjectSelect');
+      var categoryEl  = document.getElementById('categorySelect');
+      var patternVal  = (document.getElementById('selectedPattern') || {value:''}).value.trim();
+      var messageEl   = document.getElementById('formMessage');
+      var message     = messageEl ? messageEl.value.trim() : '';
+      var btn         = document.getElementById('submitBtn');
+      var subjectVal  = subjectEl  ? subjectEl.value  : '';
+      var categoryVal = categoryEl ? categoryEl.value : '';
+      var emailOK     = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      var MobileNumberOK = /^\+?[\d\s\-\(\)]{7,20}$/.test(MobileNumber);
+
+      if (!name)        { alert('Please enter your name \uD83C\uDF38'); document.getElementById('formName').focus(); return; }
+      if (!email)       { alert('Please enter your email \uD83C\uDF38'); document.getElementById('formEmail').focus(); return; }
+      if (!emailOK)     { alert('Please enter a valid email address \uD83C\uDF38'); document.getElementById('formEmail').focus(); return; }
+      if (!MobileNumber){ alert('Please enter your Mobile Number \uD83C\uDF38'); document.getElementById('formMobileNumber').focus(); return; }
+      if (!MobileNumberOK){ alert('Please enter a valid Mobile Number \uD83C\uDF38'); document.getElementById('formMobileNumber').focus(); return; }
+      if (!address)     { alert('Please enter your address \uD83C\uDF38'); document.getElementById('formAddress').focus(); return; }
+      if (!postcode)    { alert('Please enter your postcode \uD83C\uDF38'); document.getElementById('formPostcode').focus(); return; }
+      if (!city)        { alert('Please enter your city \uD83C\uDF38'); document.getElementById('formCity').focus(); return; }
+      if (!subjectVal)  { alert('Please select a subject \uD83C\uDF38'); subjectEl.focus(); return; }
+      if (subjectVal === 'custom') {
+        if (!categoryVal) { alert('Please select a category \uD83C\uDF38'); categoryEl.focus(); return; }
+        if (categoryVal === 'mugs') {
+          var mugModelVal = (document.getElementById('selectedMugModel') || {value:''}).value.trim();
+          if (!mugModelVal) { alert('Please choose a mug model \uD83C\uDF38'); document.getElementById('mugModelGroup').scrollIntoView({behavior:'smooth'}); return; }
+        }
+        if (categoryVal === 'clothing') {
+          var sizeVal = (document.getElementById('selectedClothingSize') || {value:''}).value.trim();
+          if (!sizeVal) { alert('Please choose a size \uD83C\uDF38'); document.getElementById('clothingSizeGroup').scrollIntoView({behavior:'smooth'}); return; }
+        }
+        if (!patternVal && categoryVal !== 'bundle' && categoryVal !== 'Blind Book Date Bundle' && categoryVal !== 'Surprise Box') { alert('Please choose a pattern \uD83C\uDF38'); document.getElementById('patternGroup').scrollIntoView({behavior:'smooth'}); return; }
+      }
+      if (!message) { alert('Please enter a message \uD83C\uDF38'); if (messageEl) messageEl.focus(); return; }
+
+      var subjectText  = subjectEl  ? subjectEl.options[subjectEl.selectedIndex].text   : 'N/A';
+      var categoryText = categoryEl ? categoryEl.options[categoryEl.selectedIndex].text : 'N/A';
+
+      btn.textContent = 'Sending... \uD83C\uDF38';
+      btn.disabled = true;
+
+      var mugModel    = (document.getElementById('selectedMugModel')     || {value:''}).value.trim() || 'N/A';
+      var clothingSize= (document.getElementById('selectedClothingSize') || {value:''}).value.trim() || 'N/A';
+
+      var orderDate = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'});
+      var orderNum  = 'LLC-' + Date.now().toString().slice(-6);
+      var itemsText = '';
+      var totalAmt  = 0;
+      if (orderItems.length > 0) {
+        orderItems.forEach(function(item, idx) {
+          var lt = (item.category === 'mugs' && item.mugModel)
+                     ? calcLineTotal(item.mugModel, item.qty)
+                     : item.price * item.qty;
+          totalAmt += lt;
+          itemsText += (idx+1) + '. ' + item.product;
+          if (item.mugModel) itemsText += ' | Model: ' + item.mugModel;
+          if (item.size)     itemsText += ' | Size: '  + item.size;
+          if (item.pattern)  itemsText += ' | Design: '+ item.pattern;
+          itemsText += ' | Qty: ' + item.qty + ' | \u20AC' + lt + '\n';
+        });
+        itemsText += '\nEstimated Total: \u20AC' + totalAmt;
+      }
+      var fullAddress    = address + ', ' + postcode + ', ' + city;
+      var productSummary = orderItems.length > 0
+        ? orderItems.map(function(i){ return i.product+(i.mugModel?' \u2014 '+i.mugModel:'')+(i.pattern?' \u2014 '+i.pattern:''); }).join('; ')
+        : (categoryText + (mugModel!=='N/A'?' \u2014 '+mugModel:'') + (patternVal?' \u2014 '+patternVal:''));
+      var totalQty = orderItems.length > 0
+        ? orderItems.reduce(function(s,i){return s+i.qty;},0).toString()
+        : (document.getElementById('formQty') ? document.getElementById('formQty').value : '1');
+      var fullMessage = message;
+
+      // ── EMAIL SETUP ──
+      // NOTE: For the customer copy to work, your EmailJS template (template_bla3l3r)
+      // 'To Email' field MUST be set to {{to_email}} in the EmailJS dashboard.
+      // Go to: emailjs.com → Email Templates → template_bla3l3r → To Email → type: {{to_email}}
+      // This allows each send below to route to a different recipient.
+
+      var sharedParams = {
+          customer_name:    name,
+          product_name:     productSummary,
+          quantity:         totalQty,
+          customer_address: fullAddress,
+        from_name:        'Little Luxe Co.',
+        from_email:       'littleluxeco.eu@gmail.com',
+        reply_to:         'littleluxeco.eu@gmail.com',
+        user_name:        name,
+        user_email:       email,
+        user_mobile:      MobileNumber,
+        MobileNumber:     MobileNumber,
+        address:          address,
+        postcode:         postcode,
+        city:             city,
+        subject:          'Order Confirmation \u2014 Little Luxe Co.',
+        category:         categoryText,
+        mug_model:        mugModel,
+        clothing_size:    clothingSize,
+        pattern:          patternVal || 'N/A',
+          order_number:     orderNum,
+          order_date:       orderDate,
+          order_items:      itemsText || productSummary,
+          estimated_total:  totalAmt > 0 ? '\u20AC' + totalAmt : 'N/A',
+        message:          fullMessage,
+      };
+
+      // Send 1 — to shop (littleluxeco.eu@gmail.com)
+      var paramsShop     = Object.assign({}, sharedParams, { to_name: 'Little Luxe Co.', to_email: 'littleluxeco.eu@gmail.com' });
+      // Send 2 — to customer (email entered in the form)
+      var paramsCustomer = Object.assign({}, sharedParams, { to_name: name,              to_email: email });
+
+      emailjs.send('service_wb3llsh', 'template_bla3l3r', paramsShop)
+      .then(function() {
+        return emailjs.send('service_wb3llsh', 'template_bla3l3r', paramsCustomer);
+        })
+        .then(function() {
+        btn.textContent = '\u2713 Message Sent! \uD83C\uDF38';
+        btn.style.background = 'var(--moss)';
+        btn.disabled = false;
+        ['formName','formEmail','formMobileNumber','formAddress','formPostcode','formCity','formMessage'].forEach(function(id){
+          var el = document.getElementById(id); if (el) el.value = '';
+        });
+        if (subjectEl) subjectEl.value = '';
+        orderItems = []; renderOrderItems();
+        if (typeof showCategory === 'function') showCategory();
+        setTimeout(function(){ btn.textContent = 'Send Message \uD83C\uDF38'; btn.style.background = ''; btn.disabled = true; }, 4000);
+        })
+        .catch(function(err) {
+        btn.textContent = 'Send Message \uD83C\uDF38';
+        btn.disabled = false;
+        alert('Something went wrong. Please email us at littleluxeco.eu@gmail.com');
+        console.error(err);
+      });
+    }
+
+
+    // Shipping & Returns toggle
+    function toggleShipping(e) {
+      e.preventDefault();
+      var panel = document.getElementById('shippingInfo');
+      var link  = document.getElementById('shippingToggleLink');
+      var open  = panel.style.display === 'block';
+      panel.style.display = open ? 'none' : 'block';
+      link.innerHTML = open ? 'Shipping &amp; Returns &#9662;' : 'Shipping &amp; Returns &#9652;';
+    }
+
+    // Nav shrink on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.padding = window.scrollY > 50 ? '0.9rem 3rem' : '1.4rem 3rem';
+    });
+
+    // Shipping & Returns toggle
+    function toggleShipping(e) {
+      e.preventDefault();
+      var box  = document.getElementById('shippingInfo');
+      var link = document.getElementById('shippingToggleLink');
+      var open = box.style.display === 'block';
+      box.style.display = open ? 'none' : 'block';
+      link.innerHTML = open ? 'Shipping &amp; Returns &#9662;' : 'Shipping &amp; Returns &#9652;';
+    }
+
+
+    // Shipping & Returns toggle
+    function toggleShippingPolicy(e) {
+      e.preventDefault();
+      var box  = document.getElementById('shippingPolicyBox');
+      var link = document.getElementById('shippingToggleLink');
+      var open = box.style.display === 'block';
+      box.style.display = open ? 'none' : 'block';
+      link.style.color  = open ? '' : 'var(--petal)';
+    }
+
+    // ── Pattern data per category ──
+    const patternData = {
+      'Bookmarks': [
+        { img: 'Images/Bookmarks/Freesia Pink.png',  name: 'Freesia Pink' },
+        { img: 'Images/Bookmarks/Light Pink.png',    name: 'Light Pink' },
+        { img: 'Images/Bookmarks/Off-white.png',     name: 'Off-White' },
+        { img: 'Images/Bookmarks/Purple.png',        name: 'Purple' },
+      ],
+      'Glass Mugs': [
+        { img: 'Images/Glass Mugs/Kitten & Book 1_1.png', name: 'Kitten & Book 1' },
+        { img: 'Images/Glass Mugs/Kitten & Book 1_2.png', name: 'Kitten & Book 2' },
+        { img: 'Images/Glass Mugs/Kitten & Book 1_3.png', name: 'Kitten & Book 3' },
+        { img: 'Images/Glass Mugs/Kitten & Book 1_4.png', name: 'Kitten & Book 4' },
+        { img: 'Images/Glass Mugs/Kitten & Book 1_5.png', name: 'Kitten & Book 5' },
+        { img: 'Images/Glass Mugs/Macarons 1_1.png',      name: 'Macarons 1' },
+        { img: 'Images/Glass Mugs/Macarons 1_2.png',      name: 'Macarons 2' },
+        { img: 'Images/Glass Mugs/Macarons 1_3.png',      name: 'Macarons 3' },
+        { img: 'Images/Glass Mugs/Macarons 1_4.png',      name: 'Macarons 4' },
+      ],
+      'Ceramic Mugs': [
+        { img: 'Images/Ceramic Mugs/Kitten & Book 1.png', name: 'Kitten & Book 1' },
+        { img: 'Images/Ceramic Mugs/Kitten & Book 2.png', name: 'Kitten & Book 2' },
+        { img: 'Images/Ceramic Mugs/Kitten & Book 3.png', name: 'Kitten & Book 3' },
+        { img: 'Images/Ceramic Mugs/Kitten & Book 4.png', name: 'Kitten & Book 4' },
+        { img: 'Images/Ceramic Mugs/Macarons 1.png',      name: 'Macarons 1' },
+        { img: 'Images/Ceramic Mugs/Macarons 2.png',      name: 'Macarons 2' },
+        { img: 'Images/Ceramic Mugs/Macarons 3.png',      name: 'Macarons 3' },
+        { img: 'Images/Ceramic Mugs/Macarons 4.png',      name: 'Macarons 4' },
+      ],
+      'Keychains': [
+        { img: 'Images/Keychain/Mini Resin Keychain Freesia.jpeg', name: 'Freesia Pink' },
+        { img: 'Images/Keychain/Mini Resin Keychain Blue.jpeg',    name: 'Blue' },
+        { img: 'Images/Keychain/Mini Resin Keychain Green.jpeg',   name: 'Green' },
+        { img: 'Images/Keychain/Mini Resin Keychain Light Pink.jpeg', name: 'Light Pink' },
+        { img: 'Images/Keychain/Mini Resin Keychain Purple.jpeg',  name: 'Purple' },
+        { img: 'Images/Keychain/Mini Resin Keychain Yellow.jpeg',  name: 'Yellow' },
+      ],
+      'Glass Tumbler with Straw': [
+        { img: 'Images/Tumbler with Straw/Books 1.png',         name: 'Books 1' },
+        { img: 'Images/Tumbler with Straw/Books 2.png',         name: 'Books 2' },
+        { img: 'Images/Tumbler with Straw/Books 3.png',         name: 'Books 3' },
+        { img: 'Images/Tumbler with Straw/Books 4.png',         name: 'Books 4' },
+        { img: 'Images/Tumbler with Straw/Books 5.png',         name: 'Books 5' },
+        { img: 'Images/Tumbler with Straw/Books 6.png',         name: 'Books 6' },
+        { img: 'Images/Tumbler with Straw/Books 7.png',         name: 'Books 7' },
+        { img: 'Images/Tumbler with Straw/Books 8.png',         name: 'Books 8' },
+        { img: 'Images/Tumbler with Straw/Books 9.png',         name: 'Books 9' },
+        { img: 'Images/Tumbler with Straw/Books 10.png',        name: 'Books 10' },
+        { img: 'Images/Tumbler with Straw/Books 11.png',        name: 'Books 11' },
+        { img: 'Images/Tumbler with Straw/Books 12.png',        name: 'Books 12' },
+        { img: 'Images/Tumbler with Straw/Books 13.png',        name: 'Books 13' },
+        { img: 'Images/Tumbler with Straw/Books 14.png',        name: 'Books 14' },
+        { img: 'Images/Tumbler with Straw/Books 15.png',        name: 'Books 15' },
+        { img: 'Images/Tumbler with Straw/Books 16.png',        name: 'Books 16' },
+        { img: 'Images/Tumbler with Straw/Books 17.png',        name: 'Books 17' },
+        { img: 'Images/Tumbler with Straw/Books 18.png',        name: 'Books 18' },
+        { img: 'Images/Tumbler with Straw/Books 19.png',        name: 'Books 19' },
+        { img: 'Images/Tumbler with Straw/Books 20.png',        name: 'Books 20' },
+        { img: 'Images/Tumbler with Straw/Books 21.png',        name: 'Books 21' },
+        { img: 'Images/Tumbler with Straw/Books 22.png',        name: 'Books 22' },
+        { img: 'Images/Tumbler with Straw/Spring design 1.png', name: 'Spring Design 1' },
+        { img: 'Images/Tumbler with Straw/Spring design 2.png', name: 'Spring Design 2' },
+      ],
+      'Blind Date with a Book': [
+        { name: 'Mystery/Thriller' },
+        { name: 'Horror' },
+        { name: 'Classics' },
+        { name: 'Sci-Fiction' },
+        { name: 'Romance' },
+        { name: 'Fantasy' },
+        { name: 'History' },
+        { name: 'Historical Fiction' },
+        { name: 'Young Adult/Children Fiction' },
+      ],
+      'Blind Book Date Bundle': [
+        { name: 'Mystery/Thriller' },
+        { name: 'Horror' },
+        { name: 'Classics' },
+        { name: 'Sci-Fiction' },
+        { name: 'Romance' },
+        { name: 'Fantasy' },
+        { name: 'History' },
+        { name: 'Historical Fiction' },
+        { name: 'Young Adult/Children Fiction' },
+      ]
+    };
+
+
+    var _fqty = 0;
+    function changeFormQty(d) {
+      _fqty = Math.max(0, _fqty + d);
+      var el = document.getElementById('formQtyDisplay');
+      var hd = document.getElementById('formQty');
+      if(el) { el.textContent = _fqty; el.style.color = _fqty > 0 ? "var(--text)" : "var(--text-light)"; }
+      if(hd) hd.value = _fqty;
+    }
+    function showCategory() {
+      var subject  = document.getElementById('subjectSelect').value;
+      var catGroup = document.getElementById('categoryGroup');
+      var patGroup = document.getElementById('patternGroup');
+      var mugGroup = document.getElementById('mugModelGroup');
+      var sizeGroup= document.getElementById('clothingSizeGroup');
+      var qtyGroup = document.getElementById('quantityGroup');
+      if (subject === 'custom') {
+        catGroup.style.display = 'block';
+      } else {
+        catGroup.style.display = 'none';
+        patGroup.style.display = 'none';
+        mugGroup.style.display  = 'none';
+        sizeGroup.style.display = 'none';
+        if (qtyGroup) qtyGroup.style.display = 'none';
+        document.getElementById('categorySelect').value = '';
+        document.getElementById('patternGrid').innerHTML = '';
+        document.getElementById('mugModelGrid').innerHTML = '';
+        document.getElementById('clothingSizeGrid').innerHTML = '';
+        document.getElementById('selectedPattern').value = '';
+        document.getElementById('selectedMugModel').value = '';
+        document.getElementById('selectedClothingSize').value = '';
+        _fqty = 0;
+        var qd = document.getElementById('formQtyDisplay');
+        var qh = document.getElementById('formQty');
+        if (qd) { qd.textContent = '0'; qd.style.color = 'var(--text-light)'; }
+        if (qh) qh.value = '0';
+      }
+    }
+
+    var mugModels = [
+  { name: "Glass Mug", img: "Images/Mug.jpeg" },
+  { name: "Ceramic Mug", img: "Images/Mug1.jpeg" },
+  { name: "Thermal Mug", img: "Images/Thermal_Mug.AVIF" },
+  { name: "Glass Tumbler", img: "Images/Glassware.jpeg" }
+];
+
+    // ── Clothing sizes ──
+    var toddlerSizes = ['18-24 months','2-3 Yrs','3-4 Yrs','4-5 Yrs','5-6 Yrs','6-7 Yrs','8-9 Yrs','9-10 Yrs'];
+    var womenSizes   = ['S','M','L','XL','XXL','3XL','4XL','5XL'];
+
+    function makeTextTile(label, container, hiddenId, labelId, isActive) {
+      var div = document.createElement('div');
+      div.style.cssText = 'cursor:pointer;border-radius:10px;border:1.5px solid var(--petal);padding:0.6rem 1rem;background:var(--cream);font-size:0.78rem;color:var(--text);white-space:nowrap;transition:all 0.2s;' + (isActive ? 'border-color:var(--rose);background:var(--blush);' : '');
+      div.textContent = label;
+      div.onclick = function() {
+        container.querySelectorAll('div').forEach(function(d) {
+          d.style.border = '1.5px solid var(--petal)';
+          d.style.background = 'var(--cream)';
+        });
+        div.style.border = '2px solid var(--rose)';
+        div.style.background = 'var(--blush)';
+        document.getElementById(hiddenId).value = label;
+        document.getElementById(labelId).textContent = '✓ Selected: ' + label;
+      };
+      return div;
+    }
+
+    function showCategoryOptions() {
+      var category  = document.getElementById('categorySelect').value;
+      var patGroup  = document.getElementById('patternGroup');
+      var mugGroup  = document.getElementById('mugModelGroup');
+      var sizeGroup = document.getElementById('clothingSizeGroup');
+      var patGrid   = document.getElementById('patternGrid');
+      var mugGrid   = document.getElementById('mugModelGrid');
+      var sizeGrid  = document.getElementById('clothingSizeGrid');
+
+      // Reset all
+      patGroup.style.display  = 'none';
+      mugGroup.style.display  = 'none';
+      sizeGroup.style.display = 'none';
+      patGrid.innerHTML  = '';
+      mugGrid.innerHTML  = '';
+      sizeGrid.innerHTML = '';
+      document.getElementById('selectedPattern').value      = '';
+      document.getElementById('selectedMugModel').value     = '';
+      document.getElementById('selectedClothingSize').value = '';
+      document.getElementById('selectedPatternName').textContent      = '';
+      document.getElementById('selectedMugModelName').textContent     = '';
+      document.getElementById('selectedClothingSizeName').textContent = '';
+      var patLbl = document.getElementById('patternGroupLabel');
+      if (patLbl) patLbl.textContent = 'Choose a Pattern';
+      var qg = document.getElementById('quantityGroup');
+      if (qg) qg.style.display = 'none';
+      _fqty = 0;
+      var qd = document.getElementById('formQtyDisplay');
+      var qh = document.getElementById('formQty');
+      if (qd) { qd.textContent = '0'; qd.style.color = 'var(--text-light)'; }
+      if (qh) qh.value = '0';
+
+      if (!category) return;
+
+      // ── NEW DIRECT-PATTERN CATEGORIES (Bookmarks, Glass Mugs, Ceramic Mugs, Keychains, Glass Tumbler with Straw) ──
+      if (directPatternCategories.indexOf(category) !== -1) {
+        var patterns = patternData[category] || [];
+        if (patterns.length > 0) {
+          var isTextOnly = !patterns[0].img; // genre lists have no img
+          if (isTextOnly) {
+            var patLbl2 = document.getElementById('patternGroupLabel');
+            if (patLbl2) patLbl2.textContent = 'Choose a Genre \u2728';
+          }
+          patterns.forEach(function(p) {
+            var div = document.createElement('div');
+            if (isTextOnly) {
+              div.style.cssText = 'cursor:pointer;border-radius:10px;border:1.5px solid var(--petal);padding:0.6rem 1rem;background:var(--cream);font-size:0.78rem;color:var(--text);white-space:nowrap;transition:all 0.2s;';
+              div.textContent = p.name;
+              div.onclick = function() {
+                patGrid.querySelectorAll('div').forEach(function(d) {
+                  d.style.border = '1.5px solid var(--petal)';
+                  d.style.background = 'var(--cream)';
+                });
+                div.style.border = '2px solid var(--rose)';
+                div.style.background = 'var(--blush)';
+                document.getElementById('selectedPattern').value = p.name;
+                document.getElementById('selectedPatternName').textContent = '\u2713 Selected: ' + p.name;
+                var qg2 = document.getElementById('quantityGroup');
+                if (qg2) qg2.style.display = 'block';
+              };
+            } else {
+            div.style.cssText = 'cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid transparent;transition:all 0.2s;text-align:center;width:110px;flex-shrink:0;';
+            var box = '<div style="width:110px;height:110px;overflow:hidden;border-radius:8px;background:var(--blush);"><img src="' + p.img + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'"></div>';
+            var lbl = '<span style="font-size:0.65rem;color:var(--text-light);display:block;margin-top:4px;word-break:break-word;">' + p.name + '</span>';
+            div.innerHTML = box + lbl;
+            div.onclick = function() {
+              patGrid.querySelectorAll('div').forEach(function(d) { d.style.border = '2px solid transparent'; });
+              div.style.border = '2px solid var(--rose)';
+              document.getElementById('selectedPattern').value = p.name;
+              document.getElementById('selectedPatternName').textContent = '\u2713 Selected: ' + p.name;
+              var qg2 = document.getElementById('quantityGroup');
+              if (qg2) qg2.style.display = 'block';
+            };
+            }
+            patGrid.appendChild(div);
+          });
+          patGroup.style.display = 'block';
+        } else {
+          // No predefined patterns — show quantity directly for custom/text-only items
+          if (qg) qg.style.display = 'block';
+          // Set a default pattern value so validation passes
+          document.getElementById('selectedPattern').value = 'Custom';
+          document.getElementById('selectedPatternName').textContent = '\u2713 Custom order — describe in message box';
+        }
+        return;
+      }
+
+      // ── BUNDLES (Blind Book Date Bundle, Surprise Box) ──
+      if (category === 'Blind Book Date Bundle') {
+        var patLbl3 = document.getElementById('patternGroupLabel');
+        if (patLbl3) patLbl3.textContent = 'Choose a Genre \u2728';
+        var bundlePatterns = patternData['Blind Book Date Bundle'] || [];
+        if (bundlePatterns.length > 0) {
+          bundlePatterns.forEach(function(p) {
+            var div = document.createElement('div');
+            div.style.cssText = 'cursor:pointer;border-radius:10px;border:1.5px solid var(--petal);padding:0.6rem 1rem;background:var(--cream);font-size:0.78rem;color:var(--text);white-space:nowrap;transition:all 0.2s;';
+            div.textContent = p.name;
+            div.onclick = function() {
+              patGrid.querySelectorAll('div').forEach(function(d) {
+                d.style.border = '1.5px solid var(--petal)';
+                d.style.background = 'var(--cream)';
+              });
+              div.style.border = '2px solid var(--rose)';
+              div.style.background = 'var(--blush)';
+              document.getElementById('selectedPattern').value = p.name;
+              document.getElementById('selectedPatternName').textContent = '\u2713 Selected: ' + p.name;
+              var qg2 = document.getElementById('quantityGroup');
+              if (qg2) qg2.style.display = 'block';
+            };
+            patGrid.appendChild(div);
+          });
+          patGroup.style.display = 'block';
+        } else {
+          if (qg) qg.style.display = 'block';
+        }
+        return;
+      }
+      if (category === 'Surprise Box') {
+        if (qg) qg.style.display = 'block';
+        return;
+      }
+
+      if (category === 'mugs') {
+    mugModels.forEach(function(m) {
+          var tile = document.createElement('div');
+          tile.style.cssText = 'cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid transparent;transition:all 0.2s;text-align:center;width:110px;flex-shrink:0;';
+          tile.innerHTML = '<div style="width:110px;height:110px;overflow:hidden;border-radius:8px;background:var(--blush);"><img src="'+m.img+'" alt="'+m.name+'" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display=\'none\'"></div><span style="font-size:0.65rem;color:var(--text-light);display:block;margin-top:4px;word-break:break-word;">'+m.name+'</span>';
+          tile.onclick = function() {
+            mugGrid.querySelectorAll('div').forEach(function(d){ d.style.border='2px solid transparent'; });
+            tile.style.border = '2px solid var(--rose)';
+      document.getElementById('selectedMugModel').value = m.name;
+            document.getElementById('selectedMugModelName').textContent = '\u2713 Selected: '+m.name;
+          };
+          mugGrid.appendChild(tile);
+  });
+  mugGroup.style.display = 'block';
+}
+
+      // ── CLOTHING SIZE (clothing only) ──
+      if (category === 'clothing') {
+        // Determine which sizes based on which pattern will be shown
+        // Show both toddler and women sections with a sub-label
+        var toddlerLabel = document.createElement('div');
+        toddlerLabel.style.cssText = 'width:100%;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--moss);margin-bottom:0.3rem;margin-top:0.2rem;';
+        toddlerLabel.textContent = 'Toddler Sizes';
+        sizeGrid.appendChild(toddlerLabel);
+
+        toddlerSizes.forEach(function(s) {
+          sizeGrid.appendChild(makeTextTile(s, sizeGrid, 'selectedClothingSize', 'selectedClothingSizeName', false));
+        });
+
+        var womenLabel = document.createElement('div');
+        womenLabel.style.cssText = 'width:100%;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--moss);margin-bottom:0.3rem;margin-top:0.8rem;';
+        womenLabel.textContent = "Women's Sizes";
+        sizeGrid.appendChild(womenLabel);
+
+        womenSizes.forEach(function(s) {
+          sizeGrid.appendChild(makeTextTile(s, sizeGrid, 'selectedClothingSize', 'selectedClothingSizeName', false));
+        });
+
+        sizeGroup.style.display = 'block';
+      }
+
+      // ── PATTERNS ──
+      var patterns = patternData[category] || [];
+      patterns.forEach(function(p) {
+        var div = document.createElement('div');
+        if (category === 'bundle') {
+          div.style.cssText = 'cursor:pointer;border-radius:10px;border:1.5px solid var(--petal);padding:0.6rem 1rem;background:var(--cream);font-size:0.78rem;color:var(--text);white-space:nowrap;transition:all 0.2s;';
+      div.textContent = p.name;
+    } else {
+        div.style.cssText = 'cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid transparent;transition:all 0.2s;text-align:center;width:110px;flex-shrink:0;';
+          var box  = '<div style="width:110px;height:110px;overflow:hidden;border-radius:8px;background:var(--blush);"><img src="' + p.img + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'"></div>';
+          var lbl  = '<span style="font-size:0.65rem;color:var(--text-light);display:block;margin-top:4px;word-break:break-word;">' + p.name + '</span>';
+          div.innerHTML = box + lbl;
+        }
+        div.onclick = function() {
+          patGrid.querySelectorAll('div').forEach(function(d) {
+        d.style.border = category === 'bundle' ? '1.5px solid var(--petal)' : '2px solid transparent';
+        d.style.background = category === 'bundle' ? 'var(--cream)' : '';
+          });
+          div.style.border = '2px solid var(--rose)';
+          div.style.background = category === 'bundle' ? 'var(--blush)' : '';
+          document.getElementById('selectedPattern').value = p.name;
+          document.getElementById('selectedPatternName').textContent = '\u2713 Selected: ' + p.name;
+          var qg = document.getElementById('quantityGroup');
+          if (qg) qg.style.display = 'block';
+        };
+        patGrid.appendChild(div);
+      });
+      if (patterns.length > 0) patGroup.style.display = 'block';
+      if (category === 'bundle') {
+        var qg2 = document.getElementById('quantityGroup');
+        if (qg2) qg2.style.display = 'block';
+      }
+    }
+
+  </script>
+</body>
+</html>
