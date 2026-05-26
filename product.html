@@ -90,6 +90,9 @@
       object-fit: cover;
       transition: opacity 0.3s ease;
     }
+    .main-img-wrap img.fit-contain {
+      object-fit: contain;
+    }
     .main-img-wrap .img-badge {
       position: absolute; top: 14px; left: 14px;
       background: var(--moss);
@@ -108,8 +111,10 @@
       cursor: pointer;
       transition: border-color 0.2s, transform 0.2s;
       flex-shrink: 0;
+      background: var(--blush);
     }
     .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb.thumb-contain img { object-fit: contain; }
     .thumb:hover { transform: translateY(-2px); }
     .thumb.active { border-color: var(--rose); }
 
@@ -346,6 +351,69 @@
       opacity: 1;
     }
 
+    /* IMAGE ZOOM OVERLAY */
+    .zoom-overlay {
+      position: fixed; inset: 0;
+      background: rgba(20, 14, 12, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .zoom-overlay.open { opacity: 1; pointer-events: all; }
+    .zoom-overlay-inner {
+      position: relative;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+    .zoom-overlay-inner.zoomed { cursor: zoom-out; }
+    .zoom-overlay img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+      transform: scale(1);
+      transform-origin: center center;
+      transition: transform 0.25s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+    .zoom-overlay-close {
+      position: fixed; top: 1.2rem; right: 1.4rem;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: #fff; font-size: 1.3rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      z-index: 3001;
+    }
+    .zoom-overlay-close:hover { background: rgba(255,255,255,0.25); }
+    .zoom-overlay-controls {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 0.8rem;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 40px; padding: 0.5rem 1rem;
+      z-index: 3001;
+    }
+    .zoom-ctrl-btn {
+      background: none; border: none;
+      color: #fff; font-size: 1.2rem;
+      width: 34px; height: 34px;
+      border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .zoom-ctrl-btn:hover { background: rgba(255,255,255,0.2); }
+    .zoom-level-label {
+      font-size: 0.75rem; color: rgba(255,255,255,0.7);
+      min-width: 36px; text-align: center; font-family: 'Jost', sans-serif;
+    }
+    .main-img-wrap { cursor: zoom-in; }
+
     /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.2rem; }
@@ -462,7 +530,7 @@
 
     <!-- LEFT: Gallery -->
     <div class="gallery">
-      <div class="main-img-wrap">
+      <div class="main-img-wrap" onclick="openZoom()">
         <img id="mainImg" src="" alt="Product Image">
         <div class="img-badge" id="imgBadge">New</div>
       </div>
@@ -563,6 +631,20 @@
   </div>
 
 
+  <!-- IMAGE ZOOM OVERLAY -->
+  <div class="zoom-overlay" id="zoomOverlay" onclick="handleZoomClick(event)">
+    <button class="zoom-overlay-close" onclick="closeZoom(event)" title="Close">✕</button>
+    <div class="zoom-overlay-inner" id="zoomOverlayInner">
+      <img id="zoomOverlayImg" src="" alt="Zoomed image">
+    </div>
+    <div class="zoom-overlay-controls" onclick="event.stopPropagation()">
+      <button class="zoom-ctrl-btn" onclick="changeZoom(-1)" title="Zoom out">−</button>
+      <span class="zoom-level-label" id="zoomLabel">100%</span>
+      <button class="zoom-ctrl-btn" onclick="changeZoom(1)" title="Zoom in">+</button>
+      <button class="zoom-ctrl-btn" onclick="resetZoom()" title="Reset zoom" style="font-size:0.85rem;letter-spacing:-0.02em;">↺</button>
+    </div>
+  </div>
+
   <!-- REVIEW MODAL -->
   <div class="review-backdrop" id="reviewBackdrop" onclick="if(event.target===this)closeReviewModal()">
     <div class="review-modal" style="position:relative;max-height:85vh;overflow-y:auto;">
@@ -617,6 +699,26 @@
         ],
         //details: 'Personalized Keychains. Customisable with your own text or pattern upon request.',
         //care: 'Handle with care.',
+      },
+      // ── Keychains ──
+      'Canvas Tote Bag': {
+        name: 'Canvas Tote Bag',
+        category: 'Canvas Tote Bag',
+        price: '€10',
+        //priceNote: '€5',
+        badge: 'New',
+        desc: 'Canvas Tote Bag. Objects of utility: Eco never goes out of style.',
+        images: ['Images/Canvas Tote Bag/Black - Good things are coming.png', 'Images/Canvas Tote Bag/Black - Best day ever.png', 'Images/Canvas Tote Bag/Black - Booktrovert.png',
+          'Images/Canvas Tote Bag/Black - Go with the flow.png', 'Images/Canvas Tote Bag/White - Booktrovert.png', "Images/Canvas Tote Bag/White - It's a good day to read a book.png",
+          'Images/Canvas Tote Bag/White - Just a girl who loves books.png', 'Images/Canvas Tote Bag/White - One more chapter.png'],
+        type: 'Canvas Tote Bag',
+        colors: [
+          { name:'White', hex:'#ffffff' },
+          { name:'Blush Pink', hex:'#f5b8b0' },
+          { name:'Sage Green', hex:'#a8b89a' },
+        ],
+        //details: 'Personalized Keychains. Customisable with your own text or pattern upon request.',
+        care: 'Cold wash only; Air dry; Do not bleach',
       },
       // ── BOOKMARKS ──
       'Bookmark-1': {
@@ -969,14 +1071,20 @@
       badge.style.display = p.badge ? 'block' : 'none';
 
       // Main image
-      document.getElementById('mainImg').src = p.images[0];
+      const mainImgEl = document.getElementById('mainImg');
+      mainImgEl.src = p.images[0];
+      if (p.type === 'Bookmark') {
+        mainImgEl.classList.add('fit-contain');
+      } else {
+        mainImgEl.classList.remove('fit-contain');
+      }
 
       // Thumbnails
       const thumbsEl = document.getElementById('thumbsContainer');
       thumbsEl.innerHTML = '';
       p.images.forEach((src, i) => {
         const div = document.createElement('div');
-        div.className = 'thumb' + (i === 0 ? ' active' : '');
+        div.className = 'thumb' + (i === 0 ? ' active' : '') + (p.type === 'Bookmark' ? ' thumb-contain' : '');
         div.innerHTML = `<img src="${src}" alt="thumb ${i+1}">`;
         div.onclick = () => selectThumb(div, src);
         thumbsEl.appendChild(div);
@@ -1095,6 +1203,9 @@ if (p.type === 'bundle' && p.genres) {
       const mainImg = document.getElementById('mainImg');
       mainImg.style.opacity = '0';
       setTimeout(() => { mainImg.src = src; mainImg.style.opacity = '1'; }, 200);
+      // Also update zoom overlay src if open
+      const zoomImg = document.getElementById('zoomOverlayImg');
+      if (zoomImg) zoomImg.src = src;
     }
 
     function selectColor(div, name) {
@@ -1163,6 +1274,66 @@ if (p.type === 'bundle' && p.genres) {
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2500);
     }
+
+    // ══════════════════════════════════════════
+    //  IMAGE ZOOM
+    // ══════════════════════════════════════════
+    var _zoomLevel = 1;
+    var _zoomSteps = [1, 1.5, 2, 3];
+    var _zoomIdx   = 0;
+
+    function openZoom() {
+      var src = document.getElementById('mainImg').src;
+      document.getElementById('zoomOverlayImg').src = src;
+      _zoomIdx = 0; _zoomLevel = 1;
+      applyZoom();
+      document.getElementById('zoomOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeZoom(e) {
+      if (e) e.stopPropagation();
+      document.getElementById('zoomOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleZoomClick(e) {
+      // Click on backdrop (not controls/close) toggles zoom
+      if (e.target === document.getElementById('zoomOverlay') || e.target === document.getElementById('zoomOverlayInner') || e.target === document.getElementById('zoomOverlayImg')) {
+        if (_zoomIdx < _zoomSteps.length - 1) {
+          _zoomIdx++;
+        } else {
+          _zoomIdx = 0;
+        }
+        _zoomLevel = _zoomSteps[_zoomIdx];
+        applyZoom();
+      }
+    }
+
+    function changeZoom(dir) {
+      _zoomIdx = Math.max(0, Math.min(_zoomSteps.length - 1, _zoomIdx + dir));
+      _zoomLevel = _zoomSteps[_zoomIdx];
+      applyZoom();
+    }
+
+    function resetZoom() {
+      _zoomIdx = 0; _zoomLevel = 1;
+      applyZoom();
+    }
+
+    function applyZoom() {
+      var img   = document.getElementById('zoomOverlayImg');
+      var inner = document.getElementById('zoomOverlayInner');
+      var label = document.getElementById('zoomLabel');
+      img.style.transform = 'scale(' + _zoomLevel + ')';
+      label.textContent   = Math.round(_zoomLevel * 100) + '%';
+      inner.classList.toggle('zoomed', _zoomIdx < _zoomSteps.length - 1);
+    }
+
+    // Close zoom on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeZoom();
+    });
 
     // ══════════════════════════════════════════
     //  START

@@ -1089,7 +1089,7 @@
       <!-- Product 1 -->
       <div class="product-card reveal" data-cat="Bookmarks" onclick="window.location='product.html?id=Bookmark-1'" style="cursor:pointer;">
         <div class="product-img" style="background:var(--blush);">
-          <img src="Images/Bookmarks/Freesia Pink.png" alt=""><div class="product-badge new">New</div>
+          <img src="Images/Bookmarks/Freesia Pink.png" alt="" style="object-fit:contain;"><div class="product-badge new">New</div>
         </div>
         <div class="product-info">
           <div class="product-category">Acrylic Bookmarks</div>
@@ -1196,6 +1196,22 @@
           <div class="product-footer">
             <div class="product-price"><span class="currency">€</span>5</div>
             <button class="wishlist-btn" data-pid="Keychains" data-name="Mini Resin Keychain" data-cat="Keychains" data-price="€5" data-img="Images/Keychains/Mini Resin Keychain Freesia.jpeg" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card reveal" data-cat="Canvas Tote Bag" onclick="window.location='product.html?id=Canvas Tote Bag'" style="cursor:pointer;">
+        <div class="product-img" style="background: #f0ece4;">
+          <img src="Images/Canvas Tote Bag/Black - Good things are coming.png" alt=""><div class="product-badge ">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-category">Canvas Tote Bag</div>
+          <div class="product-name">Canvas Tote Bag</div>
+          <div class="product-desc">Objects of utility: Eco never goes out of style.</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">€</span>10</div>
+            <button class="wishlist-btn" data-pid="Canvas Tote Bag" data-name="Canvas Tote Bag" data-cat="Canvas Tote Bag" data-price="€10" data-img="Images/Canvas Tote Bag/Black - Good things are coming.png" onclick="event.stopPropagation();toggleWishlistItem(this)">🤍</button>
           </div>
         </div>
       </div>
@@ -1411,6 +1427,7 @@
     <option value="Glass Tumbler with Straw">Glass Tumbler with Straw</option>
     <option value="Blind Date with a Book">Blind Date with a Book</option>
     <option value="Keychains">Keychains</option>
+    <option value="Canvas Tote Bag">Canvas Tote Bag</option>
     <option value="Blind Book Date Bundle">Blind Book Date Bundle</option>
     <option value="Surprise Box">Surprise Box</option>
   </select>
@@ -1706,7 +1723,7 @@
 
     var categoryPriceMap = {
       'Bookmarks': 5, 'Glass Mugs': 8, 'Ceramic Mugs': 8,
-      'Keychains': 5, 'Glass Tumbler with Straw': 10,
+      'Keychains': 5, 'Canvas Tote Bag': 10, 'Glass Tumbler with Straw': 10,
       'Thermal Travel Tumbler': 15, 'Blind Date with a Book': 25,
       'Blind Book Date Bundle': 50, 'Surprise Box': 60
     };
@@ -1715,7 +1732,7 @@
       return categoryPriceMap[catVal] || 0;
     }
     // New categories that use direct pattern selection (not the old 'mugs' flow)
-    var directPatternCategories = ['Bookmarks','Glass Mugs','Ceramic Mugs','Keychains','Glass Tumbler with Straw','Thermal Travel Tumbler','Blind Date with a Book'];
+    var directPatternCategories = ['Bookmarks','Glass Mugs','Ceramic Mugs','Keychains','Canvas Tote Bag','Glass Tumbler with Straw','Thermal Travel Tumbler','Blind Date with a Book'];
 
     // Combo pricing: pairs of eligible mugs get a discount
     var comboPriceMap = {
@@ -1770,6 +1787,32 @@ function addItemToOrder() {
         price:    getItemPrice(categoryVal, mugModel)
       });
       renderOrderItems();
+
+      // ── Reset pattern selection after adding to order ──
+      var patGrid2 = document.getElementById('patternGrid');
+      if (patGrid2) {
+        patGrid2.querySelectorAll('div').forEach(function(d) {
+          d.style.border = '2px solid transparent';
+          d.style.background = '';
+        });
+        // Also handle text-only tiles (bundle/genre style)
+        patGrid2.querySelectorAll('div').forEach(function(d) {
+          if (d.style.border === '2px solid var(--rose)' || d.style.borderColor === 'var(--rose)') {
+            d.style.border = '1.5px solid var(--petal)';
+            d.style.background = 'var(--cream)';
+          }
+        });
+      }
+      document.getElementById('selectedPattern').value = '';
+      document.getElementById('selectedPatternName').textContent = '';
+      // Reset quantity
+      _fqty = 0;
+      var qd2 = document.getElementById('formQtyDisplay');
+      var qh2 = document.getElementById('formQty');
+      if (qd2) { qd2.textContent = '0'; qd2.style.color = 'var(--text-light)'; }
+      if (qh2) qh2.value = '0';
+      var qg3 = document.getElementById('quantityGroup');
+      if (qg3) qg3.style.display = 'none';
     }
 
     function removeOrderItem(id) {
@@ -2060,6 +2103,16 @@ function renderOrderItems() {
         { img: 'Images/Keychain/Mini Resin Keychain Purple.jpeg',  name: 'Purple' },
         { img: 'Images/Keychain/Mini Resin Keychain Yellow.jpeg',  name: 'Yellow' },
       ],
+      'Canvas Tote Bag': [
+        { img: 'Images/Canvas Tote Bag/Black - Good things are coming.png', name: 'Black - Good things are coming' },
+        { img: 'Images/Canvas Tote Bag/Black - Best day ever.png', name: 'Black - Best day ever' },
+        { img: 'Images/Canvas Tote Bag/Black - Booktrovert.png', name: 'Black - Booktrovert' },
+        { img: 'Images/Canvas Tote Bag/Black - Go with the flow.png', name: 'Black - Go with the flow' },
+        { img: 'Images/Canvas Tote Bag/White - Booktrovert.png', name: 'White - Booktrovert' },
+        { img: "Images/Canvas Tote Bag/White - It's a good day to read a book.png", name: "White - It's a good day to read a book" },
+        { img: 'Images/Canvas Tote Bag/White - Just a girl who loves books.png', name: 'White - Just a girl who loves books' },
+        { img: 'Images/Canvas Tote Bag/White - One more chapter.png', name: 'White - One more chapter' },
+      ],
       'Glass Tumbler with Straw': [
         { img: 'Images/Tumbler with Straw/Books 1.png',         name: 'Books 1' },
         { img: 'Images/Tumbler with Straw/Books 2.png',         name: 'Books 2' },
@@ -2238,8 +2291,9 @@ function renderOrderItems() {
                 if (qg2) qg2.style.display = 'block';
               };
             } else {
+            var imgFit = (category === 'Bookmarks') ? 'contain' : 'cover';
             div.style.cssText = 'cursor:pointer;border-radius:10px;overflow:hidden;border:2px solid transparent;transition:all 0.2s;text-align:center;width:110px;flex-shrink:0;';
-            var box = '<div style="width:110px;height:110px;overflow:hidden;border-radius:8px;background:var(--blush);"><img src="' + p.img + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'"></div>';
+            var box = '<div style="width:110px;height:110px;overflow:hidden;border-radius:8px;background:var(--blush);"><img src="' + p.img + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:' + imgFit + ';" onerror="this.style.display=\'none\'"></div>';
             var lbl = '<span style="font-size:0.65rem;color:var(--text-light);display:block;margin-top:4px;word-break:break-word;">' + p.name + '</span>';
             div.innerHTML = box + lbl;
             div.onclick = function() {
